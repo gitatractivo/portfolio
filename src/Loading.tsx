@@ -1,5 +1,5 @@
 import { useGSAP } from '@gsap/react'
-import gsap, { Linear, Power1, Power2, Power4 } from 'gsap'
+import gsap, {  Power4 } from 'gsap'
 import  {  useRef } from 'react'
 import SplitType from 'split-type'
 
@@ -48,7 +48,7 @@ const Loading = () => {
         duration: 0.1,
         stagger: 0.01,
         ease: Power4.easeIn,
-        
+
       },"<")
       tl.to('.gt',{
         delay:1,

@@ -10,6 +10,9 @@
 
     @apply !hidden;
   }
+  .gt{
+    
+  }
   .char2 {
     transform: translateY(100%);
     transition: transform 0.5s;
