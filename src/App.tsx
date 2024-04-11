@@ -5,7 +5,7 @@ const App = () => {
   
   return (
 
-    <div className="w-screen min-h-screen">
+    <div className="w-screen min-h-dvh">
 
       <Loading/>
     </div>
