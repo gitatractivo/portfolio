@@ -24,7 +24,6 @@ const Loading = () => {
       
       //@ts-ignore
       tl.set(splitRef.current.chars, {
-        // y: 0,
         delay: 1,
         duration: 0.1,
         stagger: 0.01,
@@ -33,7 +32,7 @@ const Loading = () => {
       //@ts-ignore
       tl.to(splitRef.current.words[0].children, {
         y: 0,
-        delay: 0.1,
+        delay: 0.01,
         duration: 0.1,
         stagger: 0.01,
       },">")
@@ -42,17 +41,18 @@ const Loading = () => {
         y: 0,
         duration: 0.1,
         stagger: 0.01,
-        // className:"char2"
       },"<")
       tl.to('.gt',{
         delay:1,
-        duration:1,
-        className:"bg-black text-white"
+        // duration:1,
+        className:"gt bg-black font-black"
       })
       //@ts-ignore
       tl.to(splitRef.current.chars,{
-        className:"char3"
+        fontWeight:900,
+        className:"font-black char3"
       },"<")
+      
         
 
     
@@ -63,9 +63,9 @@ const Loading = () => {
   }, [])
 
   return (
-    <div  className='w-full min-h-screen  bg-black  text-white text-center flex justify-center items-center  text-4xl md:text-8xl font-extrabold 
+    <div  className='w-full min-h-screen  bg-black  text-white text-center flex justify-center items-center  text-4xl md:text-8xl  
     '>
-      <h1 ref={wordref} className='gt bg-white rounded-lg px-2 py-1 md:px-4  text-white inline-block '>
+      <h1 ref={wordref} className='gt bg-white text-black rounded-lg px-2 py-1 md:px-4   inline-block '>
 
         Gitanshu Talwar
       </h1>
