@@ -3,9 +3,8 @@ import gsap from 'gsap'
 import  {  useRef } from 'react'
 import SplitType from 'split-type'
 
-type Props = {}
 
-const Loading = (props: Props) => {
+const Loading = () => {
   const splitRef = useRef(null)
   const wordref = useRef(null)
   useGSAP(() => {
