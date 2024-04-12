@@ -65,7 +65,7 @@ const Loading = ({setIsLoading}:LoadingProps) => {
         className:"font-black char3"
       },"<")
       tl.to('.gt',{
-        duration:2,
+        duration:1,
         opacity:0,
         scale:80,
         ease: Power4.easeIn,
@@ -77,7 +77,7 @@ const Loading = ({setIsLoading}:LoadingProps) => {
       //   // scale:1000
       // },"-=1")
       tl.to('.dis',{
-        duration:2,
+        duration:1,
         ease:Power4.easeIn,
         backgroundColor:"transparent",
       },'<')
