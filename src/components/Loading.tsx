@@ -3,8 +3,11 @@ import gsap, {  Power4 } from 'gsap'
 import  {  useRef } from 'react'
 import SplitType from 'split-type'
 
+type LoadingProps = {
+  setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
+}
 
-const Loading = () => {
+const Loading = ({setIsLoading}:LoadingProps) => {
   const splitRef = useRef(null)
   const wordref = useRef(null)
   useGSAP(() => {
@@ -27,8 +30,9 @@ const Loading = () => {
       //@ts-ignore
       tl.set(splitRef.current.chars, {
         delay: 1,
-        duration: 0.1,
+        duration: 0.5,
         stagger: 0.01,
+        
         className:"char2",
         ease: Power4.easeOut,
 
@@ -36,7 +40,7 @@ const Loading = () => {
       //@ts-ignore
       tl.to(splitRef.current.words[0].children, {
         y: 0,
-        delay: 0.0,
+        delay: .2,
         duration: 0.1,
         stagger: 0.02,
         ease: Power4.easeIn,
@@ -53,7 +57,7 @@ const Loading = () => {
       tl.to('.gt',{
         delay:1,
         // duration:1,
-        className:"gt bg-black font-black"
+        className:"gt bg-[#5546FF] font-[#5546FF]"
       })
       //@ts-ignore
       tl.to(splitRef.current.chars,{
@@ -75,26 +79,22 @@ const Loading = () => {
       tl.to('.dis',{
         duration:2,
         ease:Power4.easeIn,
-        backgroundColor:"white",
+        backgroundColor:"transparent",
       },'<')
       tl.to('.dis',{
         className:"hidden"
       },'>')
-
-      
-        
-
-    
-    
+      tl.call(() => {
+        setIsLoading(false);
+      }, undefined, ">");
     }
-
     
   }, [])
 
   return (
-    <div  className='dis w-full min-h-screen  bg-black  text-white text-center flex justify-center items-center  text-4xl md:text-8xl  
+    <div className='dis fixed w-full min-h-dvh z-[999]  bg-[#5546FF]  text-white text-center flex justify-center items-center  text-4xl md:text-8xl  
     '>
-      <h1 ref={wordref} className='gt bg-white text-black rounded-lg px-2 py-1 md:px-4   inline-block '>
+      <h1 ref={wordref} className='gt bg-white text-[#5546FF]  px-2 py-1 md:px-6   inline-block '>
 
         Gitanshu Talwar
       </h1>

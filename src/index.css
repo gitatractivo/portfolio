@@ -16,7 +16,7 @@
   .char2 {
     transform: translateY(100%);
     transition: transform 0.5s;
-    color:black;
+    color:#5546FF;
     @apply font-black
     /* font-weight: 900; */
 
