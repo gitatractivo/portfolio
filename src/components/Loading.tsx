@@ -29,29 +29,26 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
       })
 
       //@ts-ignore
-      tl.set(splitRef.current.chars, {
-        delay: 1,
-        duration: 0.5,
-        stagger: 0.01,
-        y: 0,
-
+      
+      // @ts-ignore
+      tl.to(splitRef.current.words[0].children, {
+        y: 0,        
+        fontWeight: 900,
+        // display:"block",
         className: "char2",
+        delay: 1,
+        duration: 0.1,
+        stagger: 0.04,
         ease: Power4.easeIn,
 
-      })
-      //@ts-ignore
-      // tl.to(splitRef.current.words[0].children, {
-      //   delay: .2,
-      //   duration: 0.1,
-      //   stagger: 0.02,
-      //   ease: Power4.easeIn,
-
-      // }, ">")
+      }, )
       //@ts-ignore
       tl.to(splitRef.current.words[1].children, {
         y: 0,
+        fontWeight: 900,
+        className: "char2",
         duration: 0.1,
-        stagger: 0.01,
+        stagger: 0.04,
         ease: Power4.easeIn,
 
       }, "<")
