@@ -1,13 +1,14 @@
 import { useGSAP } from '@gsap/react'
-import gsap, {  Power4 } from 'gsap'
-import  {  useRef } from 'react'
+import gsap, { Power4 } from 'gsap'
+import { useRef } from 'react'
 import SplitType from 'split-type'
+import "../loading.css"
 
 type LoadingProps = {
-  setIsLoading : React.Dispatch<React.SetStateAction<boolean>>
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Loading = ({setIsLoading}:LoadingProps) => {
+const Loading = ({ setIsLoading }: LoadingProps) => {
   const splitRef = useRef(null)
   const wordref = useRef(null)
   useGSAP(() => {
@@ -26,15 +27,15 @@ const Loading = ({setIsLoading}:LoadingProps) => {
         ease: Power4.easeInOut,
 
       })
-      
+
       //@ts-ignore
       tl.set(splitRef.current.chars, {
         delay: 1,
         duration: 0.5,
         stagger: 0.01,
-        
-        className:"char2",
-        ease: Power4.easeOut,
+
+        className: "char2",
+        ease: Power4.easeIn,
 
       })
       //@ts-ignore
@@ -45,7 +46,7 @@ const Loading = ({setIsLoading}:LoadingProps) => {
         stagger: 0.02,
         ease: Power4.easeIn,
 
-      },">")
+      }, ">")
       //@ts-ignore
       tl.to(splitRef.current.words[1].children, {
         y: 0,
@@ -53,42 +54,44 @@ const Loading = ({setIsLoading}:LoadingProps) => {
         stagger: 0.01,
         ease: Power4.easeIn,
 
-      },"<")
-      tl.to('.gt',{
-        delay:1,
-        // duration:1,
-        className:"gt bg-[#5546FF] font-[#5546FF]"
+      }, "<")
+      tl.to('.gt', {
+        delay: 1,
+        duration: 0.4,
+        className: "gt bg-[#5546FF] font-[#5546FF]"
       })
       //@ts-ignore
-      tl.to(splitRef.current.chars,{
-        fontWeight:900,
-        className:"font-black char3"
-      },"<")
-      tl.to('.gt',{
-        duration:1,
-        opacity:0,
-        scale:80,
+      tl.to(splitRef.current.chars, {
+        fontWeight: 900,
+        duration: 0.4,
+
+        className: "font-black char3"
+      }, "<")
+      tl.to('.gt', {
+        duration: 1,
+        opacity: 0,
+        scale: 80,
         ease: Power4.easeIn,
-        backgroundColor:"white",
+        backgroundColor: "white",
       })
       // tl.to('.gt',{
       //   duration:2,
       //   translateX:"60%",
       //   // scale:1000
       // },"-=1")
-      tl.to('.dis',{
-        duration:1,
-        ease:Power4.easeIn,
-        backgroundColor:"transparent",
-      },'<')
-      tl.to('.dis',{
-        className:"hidden"
-      },'>')
+      tl.to('.dis', {
+        duration: 1,
+        ease: Power4.easeIn,
+        backgroundColor: "transparent",
+      }, '<')
+      tl.to('.dis', {
+        className: "hidden"
+      }, '>')
       tl.call(() => {
         setIsLoading(false);
       }, undefined, ">");
     }
-    
+
   }, [])
 
   return (
