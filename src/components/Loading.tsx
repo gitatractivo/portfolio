@@ -33,20 +33,20 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
         delay: 1,
         duration: 0.5,
         stagger: 0.01,
+        y: 0,
 
         className: "char2",
         ease: Power4.easeIn,
 
       })
       //@ts-ignore
-      tl.to(splitRef.current.words[0].children, {
-        y: 0,
-        delay: .2,
-        duration: 0.1,
-        stagger: 0.02,
-        ease: Power4.easeIn,
+      // tl.to(splitRef.current.words[0].children, {
+      //   delay: .2,
+      //   duration: 0.1,
+      //   stagger: 0.02,
+      //   ease: Power4.easeIn,
 
-      }, ">")
+      // }, ">")
       //@ts-ignore
       tl.to(splitRef.current.words[1].children, {
         y: 0,
