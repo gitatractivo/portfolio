@@ -1,5 +1,5 @@
 import { useGSAP } from '@gsap/react'
-import gsap, { Power4 } from 'gsap'
+import gsap, { Circ, Power1, Power4 } from 'gsap'
 import { useRef } from 'react'
 import SplitType from 'split-type'
 import "../loading.css"
@@ -39,7 +39,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
         delay: 1,
         duration: 0.1,
         stagger: 0.04,
-        ease: Power4.easeIn,
+        ease: Power1.easeIn,
 
       }, )
       //@ts-ignore
@@ -49,11 +49,11 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
         className: "char2",
         duration: 0.1,
         stagger: 0.04,
-        ease: Power4.easeIn,
+        ease: Power1.easeIn,
 
       }, "<")
       tl.to('.gt', {
-        delay: 1,
+        delay: 0.5,
         duration: 0.4,
         className: "gt bg-[#5546FF] font-[#5546FF]"
       })
