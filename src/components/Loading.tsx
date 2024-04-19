@@ -1,5 +1,5 @@
 import { useGSAP } from '@gsap/react'
-import gsap, { Circ, Power1, Power4 } from 'gsap'
+import gsap, {  Power1, Power4 } from 'gsap'
 import { useRef } from 'react'
 import SplitType from 'split-type'
 import "../loading.css"
