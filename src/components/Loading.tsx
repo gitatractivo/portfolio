@@ -28,7 +28,6 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
 
       })
 
-      //@ts-ignore
       
       // @ts-ignore
       tl.to(splitRef.current.words[0].children, {
@@ -38,7 +37,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
         className: "char2",
         delay: 1,
         duration: 0.1,
-        stagger: 0.04,
+        stagger: 0.024,
         ease: Power1.easeIn,
 
       }, )
@@ -86,7 +85,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
       }, '>')
       tl.call(() => {
         setIsLoading(false);
-      }, undefined, ">");
+      }, undefined, ">-1.15");
     }
 
   }, [])
@@ -95,7 +94,6 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
     <div className='dis fixed w-full min-h-dvh z-[999]  bg-[#5546FF]  text-white text-center flex justify-center items-center  text-4xl md:text-8xl  
     '>
       <h1 ref={wordref} className='gt bg-white text-[#5546FF]  px-2 py-1 md:px-6   inline-block '>
-
         Gitanshu Talwar
       </h1>
     </div>
