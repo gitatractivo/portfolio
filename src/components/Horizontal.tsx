@@ -67,7 +67,7 @@ const Horizontal = () => {
   }, []);
 
   return (
-    <div className="max-w-screen px-[8vw] bg-black overflow-hidden max-h-screen h-screen" ref={containerRef}>
+    <div  className="max-w-screen px-[8vw] bg-black overflow-hidden max-h-screen h-screen" ref={containerRef}>
       <div className="w-full h-full ">
         <div
           ref={textRef}

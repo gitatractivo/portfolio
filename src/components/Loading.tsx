@@ -1,5 +1,5 @@
 import { useGSAP } from '@gsap/react'
-import gsap, {  Power1, Power4 } from 'gsap'
+import gsap, { Power1, Power4 } from 'gsap'
 import { useRef } from 'react'
 import SplitType from 'split-type'
 import "../loading.css"
@@ -28,10 +28,10 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
 
       })
 
-      
+
       // @ts-ignore
       tl.to(splitRef.current.words[0].children, {
-        y: 0,        
+        y: 0,
         fontWeight: 900,
         // display:"block",
         className: "char2",
@@ -40,7 +40,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
         stagger: 0.024,
         ease: Power1.easeIn,
 
-      }, )
+      },)
       //@ts-ignore
       tl.to(splitRef.current.words[1].children, {
         y: 0,
