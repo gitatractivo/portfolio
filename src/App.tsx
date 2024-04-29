@@ -1,4 +1,4 @@
-import {  useEffect, useLayoutEffect, useRef, useState } from "react"
+import {   useLayoutEffect, useRef, useState } from "react"
 import NavBar from "./components/NavBar";
 import Loading from "./components/Loading";
 import { useGSAP } from "@gsap/react";
@@ -13,7 +13,7 @@ import { ScrollTrigger } from "gsap/all";
 
 
 function App() {
-  const containerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const locomotiveRef = useRef(null)
