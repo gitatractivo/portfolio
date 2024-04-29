@@ -88,7 +88,7 @@ const Whoam = ({ isLoaded }: Props) => {
         start: "top bottom",
         end: "top 2%",
         scrub: 0.5,
-        markers: true
+        // markers: true
       }
     })
 
