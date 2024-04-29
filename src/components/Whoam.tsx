@@ -108,7 +108,7 @@ const Whoam = ({ isLoaded }: Props) => {
       endTrigger:contentRef.current,
       end:"bottom 2%",
       scrub: 1,
-      markers:true,
+      // markers:true,
       pin:true
       
       
