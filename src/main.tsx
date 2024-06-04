@@ -4,7 +4,7 @@ import App from './App.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <div className='w-[99.243vw] overflow-x-hidden'>
     <App />
-  </React.StrictMode>,
+  </div >,
 )

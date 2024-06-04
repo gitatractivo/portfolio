@@ -154,8 +154,14 @@ const Whoam = ({ isLoaded }: Props) => {
       
 
         <div ref={containerRef} data-scroll data-scroll-section data-scroll-speed="-.7" className="w-[95%] random mx-auto  scale-x-75 h-screen overflow-hidden  bg-black px-4  rounded-[2vw]">
-          <div ref={contentRef} data-scroll data-scroll-section data-scroll-speed="-.7"  className="bg-white  border-black text-[15vw] flex flex-col break-words  w-full mx-auto min-h-[300vh] leading-[12vw]">
-          wertyuiophjsdfjcm;lkjsfd.;m;kllssdafwsedafasddf this is last
+          <div ref={contentRef} data-scroll data-scroll-section data-scroll-speed="-.7"  className="bg-black  border-black text-[15vw] flex flex-row break-words text-white px-[5vw] py-[14vh] w-full mx-auto min-h-[150vh] leading-[12vw] gap-4">
+            <div className="flex w-1/2 border border-white flex-col">
+
+            </div>
+            <div className="flex w-1/2 border border-white flex-col">
+
+            </div>
+          
         </div>
       </div>
       </div>
