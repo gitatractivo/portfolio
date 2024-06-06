@@ -1,9 +1,7 @@
-import React from 'react';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaFilePdf } from 'react-icons/fa';
+import { FaEnvelope, FaFilePdf, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
-type Props = {};
 
-const Footer = (props: Props) => {
+const Footer = () => {
   return (
     <div className='w-full h-full bg-black relative p-20 flex flex-col gap-10 min-h-[50vh] justify-center items-center'>
       <div className="flex fjustify-center items-center gap-3">

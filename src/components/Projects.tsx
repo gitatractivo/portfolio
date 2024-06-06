@@ -1,10 +1,8 @@
-import React from 'react'
 import { GoArrowUpRight } from "react-icons/go";
 
 
-type Props = {}
 
-const Projects = (props: Props) => {
+const Projects = () => {
   const projects = [
     {
       "title": "SocialSphere",
