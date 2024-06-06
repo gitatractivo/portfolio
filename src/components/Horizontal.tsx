@@ -79,9 +79,10 @@ const Horizontal = () => {
       }
     })
   }, []);
+  // data-scroll-offset="-100%,0%" 
 
   return (
-    <section data-scroll data-scroll-section data-scroll-offset="-1000%,0%" className="max-w-screen px-[8vw] bg-black overflow-hidden max-h-screen h-screen" ref={containerRef}>
+    <section data-scroll data-scroll-section className="max-w-screen px-[8vw] bg-black overflow-hidden max-h-screen h-screen" ref={containerRef}>
       <div className="w-full h-full ">
         <div
           ref={textRef}

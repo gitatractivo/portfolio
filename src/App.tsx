@@ -8,6 +8,8 @@ import Whoam from "./components/Whoam";
 import Horizontal from "./components/Horizontal";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import Projects from "./components/Projects";
+import Footer from "./components/Footer";
 
 
 
@@ -75,6 +77,8 @@ function App() {
         <>
           <Whoam isLoaded={isLoaded} />
           {isLoaded && <Horizontal />}
+          <Projects/> 
+          <Footer/> 
         </>
       )}
     </div>
