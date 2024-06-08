@@ -153,8 +153,8 @@ const Whoam = ({ isLoaded }: Props) => {
 
 
 
-        <div ref={containerRef} data-scroll data-scroll-section data-scroll-speed="-.7" className="w-[95%] random mx-auto  scale-x-75 h-screen overflow-hidden  bg-black px-4  rounded-[2vw]">
-          <div ref={contentRef} data-scroll data-scroll-section data-scroll-speed="-.7" className="bg-black  border-black flex flex-row break-words text-white px-[5vw] py-[20vh] w-full mx-auto min-h-[150vh] gap-4">
+        <div ref={containerRef}  className="w-[95%] random mx-auto  scale-x-75 h-[95vh] overflow-hidden  bg-black px-4  rounded-3xl">
+          <div ref={contentRef}  className="bg-black  border-black flex flex-row break-words text-white px-[5vw] py-[20vh] w-full mx-auto min-h-[150vh] gap-4">
             <div className="flex w-1/2 text-[13vw] font-semibold  leading-[12vw]  flex-col">
               Why To Hire Me?
 
