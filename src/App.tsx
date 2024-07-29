@@ -7,7 +7,7 @@ import Base from "./components/Base";
 import Whoam from "./components/Whoam";
 import Horizontal from "./components/Horizontal";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
+import { ScrollTrigger } from "gsap/all"; 
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
 
@@ -22,7 +22,7 @@ function App() {
 
   useLayoutEffect(()=>{
        
-    (
+  (
       async()=>{
         // @ts-ignore
         const Locomotive  = (await import('locomotive-scroll')).default;

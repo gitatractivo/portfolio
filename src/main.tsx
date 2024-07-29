@@ -3,7 +3,7 @@ import App from './App.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <div className='w-screen overflow-x-hidden'>
+  <div className='w-screen overflow-x-hidden scrollbar-none'>
     <App />
   </div >,
 )
