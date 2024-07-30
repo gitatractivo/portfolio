@@ -9,13 +9,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Your website URL
 const hostname = "https://gitanshutalwar.com";
+const currentDate = new Date().toISOString();
 
 // Create a stream to write to
 const stream = new SitemapStream({ hostname });
 
 // Return a promise that resolves with your XML string
 const sitemap = streamToPromise(
-  Readable.from([{ url: "/", changefreq: "daily", priority: 1.0 }]).pipe(stream)
+  Readable.from([
+    { url: "/", changefreq: "daily", priority: 1.0, lastmod: currentDate },
+  ]).pipe(stream)
 ).then((data) => data.toString());
 
 // Write the sitemap to a file
