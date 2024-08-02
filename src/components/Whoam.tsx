@@ -82,6 +82,8 @@ const Whoam = ({ isLoaded }: Props) => {
   useGSAP(() => {
     tl.to(containerRef.current, {
       scale: 1,
+      borderRadius:"28px",
+      filter:"blur(0px)",
       ease: Power1.easeOut,
       scrollTrigger: {
         trigger: containerRef.current,
@@ -91,6 +93,7 @@ const Whoam = ({ isLoaded }: Props) => {
         // markers: true
       }
     })
+    
 
 
     ScrollTrigger.create({
@@ -153,7 +156,7 @@ const Whoam = ({ isLoaded }: Props) => {
 
 
 
-        <div ref={containerRef}  className="w-[95%] random mx-auto  scale-x-75 h-[95vh] overflow-hidden  bg-black px-4  rounded-3xl">
+        <div ref={containerRef}  className="w-[95%] random mx-auto filter blur-lg  scale-x-75 h-[95vh] overflow-hidden  bg-black px-4  rounded-full">
           <div ref={contentRef}  className="bg-black  border-black flex flex-row break-words text-white px-[5vw] py-[20vh] w-full mx-auto min-h-[150vh] gap-4">
             <div className="flex w-1/2 text-[13vw] font-semibold  leading-[12vw]  flex-col">
               Why To Hire Me?
