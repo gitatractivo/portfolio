@@ -3,6 +3,7 @@ import gsap, { Power1, Power4 } from "gsap";
 import { useRef } from "react";
 import SplitType from "split-type";
 import "../loading.css";
+import FluidGradient from "./FluidGradient";
 
 type LoadingProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -56,7 +57,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
       tl.to(".gt", {
         delay: 0.5,
         duration: 0.4,
-        className: "gt bg-[#5546FF] font-[#5546FF]",
+        className: "gt  font-[#5546FF]",
       });
       //@ts-ignore
       tl.to(
@@ -69,6 +70,15 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
         },
         "<"
       );
+      // tl.to(
+      //   ".dis",
+      //   {
+          
+
+      //     backgroundColor:"white"
+      //   },
+      //   "<"
+      // );
       tl.to(".gt", {
         duration: 1,
         opacity: 0,
@@ -100,6 +110,8 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
       tl.call(
         () => {
           setIsLoading(false);
+    window.scrollTo(0, 0);
+          
         },
         undefined,
         ">-1.15"
@@ -109,12 +121,13 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
 
   return (
     <div
-      className="dis fixed w-full min-h-dvh z-[999]  bg-[#5546FF]  text-white text-center flex justify-center items-center  text-4xl md:text-8xl  
+      className="dis fixed w-full min-h-dvh z-[999]  bg-gradient-to-t from-white via-[#5166DB] to-[#0909C4] backdrop-filter backdrop-blur-lg  text-white text-center flex justify-center items-center  text-4xl md:text-8xl  
     "
     >
+      {/* <FluidGradient/> */}
       <h1
         ref={wordref}
-        className="gt bg-white text-[#5546FF]  px-2 py-1 md:px-6   inline-block "
+        className="gt z-10 overflow-hidden inline-block bg-white text-black  px-2 py-1 md:px-6   "
       >
         Gitanshu Talwar
       </h1>

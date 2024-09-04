@@ -1,6 +1,6 @@
 import { useGSAP } from '@gsap/react';
 import { useIntersection } from '@mantine/hooks';
-import gsap, { Power1, Power4, } from 'gsap';
+import gsap, { Power1, Power2, Power3, Power4, } from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import { useRef, useState } from 'react';
 import SplitType from 'split-type';
@@ -82,8 +82,9 @@ const Whoam = ({ isLoaded }: Props) => {
   useGSAP(() => {
     tl.to(containerRef.current, {
       scale: 1,
-      borderRadius:"28px",
-      filter:"blur(0px)",
+      // borderRadius: "28px",
+      // backgroundColor:"blue",
+
       ease: Power1.easeOut,
       scrollTrigger: {
         trigger: containerRef.current,
@@ -91,8 +92,33 @@ const Whoam = ({ isLoaded }: Props) => {
         end: "top 2%",
         scrub: 0.5,
         // markers: true
+      },
+    });
+    tl.to(containerRef.current, {
+      borderRadius: "28px",
+
+      ease: Power3.easeOut,
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top bottom",
+        end: "top 2%",
+        scrub: 0.5,
+        // markers: true
+      },
+    });
+    tl.to(containerRef.current, {
+      filter:"blur(0px)",
+      ease: Power1.easeIn,
+      
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top bottom",
+        end: "top 2%",
+        scrub: 0.5,
+        
+        // markers: true
       }
-    })
+    },"<")
     
 
 
@@ -121,10 +147,13 @@ const Whoam = ({ isLoaded }: Props) => {
 
   return (
     <section
-      data-scroll data-scroll-section data-scroll-speed="+.7" data-scroll-offset="-200%,0"
-      className="z-30 parentContainer relative bg-gray-300 w-screen overflow-x-hidden min-h-screen rounded-t-[3vw]  pt-[7vh] pb-16 shadow-[0_-20px_30px_-20px_#0e004b] flex flex-col"
+      data-scroll
+      data-scroll-section
+      data-scroll-speed="+.7"
+      data-scroll-offset="-200%,0"
+      className="z-30 parentContainer relative bg-gray-300 w-screen overflow-x-hidden min-h-screen rounded-t-3xl md:rounded-t-[3vw]  pt-[7vh] pb-16 shadow-[0_-20px_30px_-20px_#0e004b] flex flex-col"
     >
-      <div className="flex px-[7vw] flex-col md:flex-row">
+      <div  className=" flex px-[7vw] flex-col md:flex-row">
         <div className="flex flex-col justify-center min-h-[80vh] w-full items-center h-full">
           <h1
             ref={(el) => {
@@ -145,76 +174,90 @@ const Whoam = ({ isLoaded }: Props) => {
             }}
             className="mt-[1.5vh] text-[1.5vw]  overflow-hidden leading-8 px-[2vw] tracking-wider whoP font-mono"
           >
-            I am a full stack developer from India passionate about building impactful projects.
+            I am a full stack developer from India passionate about building
+            impactful projects.
           </p>
         </div>
         <div className="w-full "></div>
-
-
       </div>
-      <div data-scroll data-scroll-section data-scroll-speed="-.7" className="parentContainer1 py-5">
-
-
-
-        <div ref={containerRef}  className="w-[95%] random mx-auto filter blur-lg  scale-x-75 h-[95vh] overflow-hidden  bg-black px-4  rounded-full">
-          <div ref={contentRef}  className="bg-black  border-black flex flex-row break-words text-white px-[5vw] py-[20vh] w-full mx-auto min-h-[150vh] gap-4">
+      <div
+        data-scroll
+        data-scroll-section
+        data-scroll-speed="-.7"
+        className="parentContainer1 py-5"
+      >
+        <div
+          ref={containerRef}
+          className="w-[95%] random mx-auto filter blur-md  scale-x-75 h-[95vh] overflow-hidden  bg-black px-4  rounded-full"
+        >
+          <div
+            ref={contentRef}
+            className="bg-black  border-black flex flex-row break-words text-white px-[5vw] py-[20vh] w-full mx-auto min-h-[150vh] gap-4"
+          >
             <div className="flex w-1/2 text-[13vw] font-semibold  leading-[12vw]  flex-col">
               Why To Hire Me?
-
             </div>
             <div className="flex  w-1/2 py-[11vh] gap-14 flex-col ">
-
               <div className="flex flex-col  pl-4 w-full relative">
-                <div className="absolute left-0 bottom-0 w-[2px] bg-white h-[calc(100%-80px)]">
-
-                </div>
+                <div className="absolute left-0 bottom-0 w-[2px] bg-white h-[calc(100%-80px)]"></div>
                 <h1 className="text-4xl font-bold">Experience</h1>
-                <p className="text-lg text-gray-300">I have experience in building full stack applications using various technologies etc.</p>
+                <p className="text-lg text-gray-300">
+                  I have experience in building full stack applications using
+                  various technologies etc.
+                </p>
                 <h1 className="text-2xl mt-4 font-bold">Smollan</h1>
-                <p className=" text-gray-300">Intern March 2024- April 2024<br></br>
-                  Collaborated on various projects some of which where projects for google.
-                  Worked on Reactjs, Nextjs, Nodejs, Docker, Aws Etc. built Ci/CD pipelines.  Worked on a marketing product currently which is used by 10000+ people daily
-
+                <p className=" text-gray-300">
+                  Intern March 2024- April 2024<br></br>
+                  Collaborated on various projects some of which where projects
+                  for google. Worked on Reactjs, Nextjs, Nodejs, Docker, Aws
+                  Etc. built Ci/CD pipelines. Worked on a marketing product
+                  currently which is used by 10000+ people daily
                 </p>
                 <h1 className="text-2xl font-bold">Consituents Ai</h1>
-                <p className=" text-gray-300">Intern Nov 2023- March 2024<br></br>Developed various products using Generative ai, React Native, Reactjs etc.<br />
-                  Collaborated closely with cross-functional teams to design, develop, and deploy feature-rich software products.
-                  Improved website load time.
+                <p className=" text-gray-300">
+                  Intern Nov 2023- March 2024<br></br>Developed various products
+                  using Generative ai, React Native, Reactjs etc.
+                  <br />
+                  Collaborated closely with cross-functional teams to design,
+                  develop, and deploy feature-rich software products. Improved
+                  website load time.
                 </p>
                 <h1 className="text-2xl font-bold">Freelancer</h1>
-                <p className=" text-gray-300">Made many products and websites, using Mern Stack, Deployed many applications.<br />Worked on performance optimisations and reducing load time. Built Scalable and secure Systems and infrastructure using cloud.</p>
-
-
-
+                <p className=" text-gray-300">
+                  Made many products and websites, using Mern Stack, Deployed
+                  many applications.
+                  <br />
+                  Worked on performance optimisations and reducing load time.
+                  Built Scalable and secure Systems and infrastructure using
+                  cloud.
+                </p>
               </div>
               <div className="flex flex-col  pl-4 w-full relative">
-                <div className="absolute left-0 bottom-0 w-[2px] bg-white h-[calc(100%-60px)]">
-
-                </div>
+                <div className="absolute left-0 bottom-0 w-[2px] bg-white h-[calc(100%-60px)]"></div>
                 <h1 className="text-4xl font-bold">Skills</h1>
                 {/* <p className="text-lg text-gray-300">I have experience in building full stack applications using various technologies etc.</p> */}
                 <h1 className="text-2xl mt-4 font-bold">Frontend</h1>
                 <p className=" text-gray-300">
                   ReactJs, Redux, Nextjs, Svelte, Tailwind etc.
-
                 </p>
                 <h1 className="text-2xl font-bold">Backend</h1>
-                <p className=" text-gray-300">Nodejs, Django, FastAPi, GoFiber etc.
-                  
+                <p className=" text-gray-300">
+                  Nodejs, Django, FastAPi, GoFiber etc.
                 </p>
                 <h1 className="text-2xl font-bold">Devops</h1>
-                <p className=" text-gray-300">Docker, Kubernetes, Terraform, Aws, Gcp </p>
+                <p className=" text-gray-300">
+                  Docker, Kubernetes, Terraform, Aws, Gcp{" "}
+                </p>
                 <h1 className="text-2xl font-bold">Programming Languages</h1>
-                <p className=" text-gray-300">Java, Python, Javascript, Typescript , Go , Rust(learning) </p>
+                <p className=" text-gray-300">
+                  Java, Python, Javascript, Typescript , Go , Rust(learning){" "}
+                </p>
                 <h1 className="text-2xl font-bold">Soft Skills</h1>
-                <p className=" text-gray-300">Project Management, Team Management, Problem Solving Skills </p>
-
-
-
+                <p className=" text-gray-300">
+                  Project Management, Team Management, Problem Solving Skills{" "}
+                </p>
               </div>
-
             </div>
-
           </div>
         </div>
       </div>

@@ -35,6 +35,39 @@ const Horizontal = () => {
       },
     });
 
+    gsap.set(container, { backgroundColor: "#000000" }); // Set initial color to black
+
+    const colorTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top top",
+        // @ts-ignore
+        end: () => "+=" + text.offsetWidth,
+        scrub: true,
+        markers: true,
+      },
+    });
+
+    colorTimeline.to(container, {
+      backgroundColor: "#ffb833",
+      duration: 0.25,
+    });
+
+    colorTimeline.to(container, {
+      backgroundColor: "#00ffd5",
+      duration: 0.25,
+    });
+
+    colorTimeline.to(container, {
+      backgroundColor: "#ff00ff",
+      duration: 0.25,
+    });
+
+    colorTimeline.to(container, {
+      backgroundColor: "#0909C4",
+      duration: 0.25,
+    });
+
     
     //@ts-ignore
     const l = splitRef.current.chars.length;
@@ -45,7 +78,7 @@ const Horizontal = () => {
       if(i>13) f=i/l*100+50
       const p =f +30+"%"
       f=i/l*80
-      const e = f+"%"
+      const e = f+"%" 
       let start = `right ${p}`
       let end = `right ${e}`
       // if(i<4){
@@ -82,11 +115,16 @@ const Horizontal = () => {
   // data-scroll-offset="-100%,0%" 
 
   return (
-    <section data-scroll data-scroll-section className="max-w-screen px-[8vw] bg-black overflow-hidden max-h-screen h-screen" ref={containerRef}>
-      <div className="w-full h-full ">
+    <section
+      data-scroll
+      data-scroll-section
+      className="max-w-screen px-[8vw] overflow-hidden max-h-screen h-screen"
+      ref={containerRef}
+    >
+      <div className="w-full h-full">
         <div
           ref={textRef}
-          className="w-max translate-x-10 h-full flex justify-start items-center uppercase text-white text-[21vw] font-mono whitespace-nowrap  "
+          className="w-max translate-x-10 h-full flex justify-start items-center uppercase text-white text-[21vw] font-mono whitespace-nowrap"
         >
           Developer whom you can count on!!
         </div>

@@ -9,15 +9,12 @@
   .char2 {
     transform: translateY(100%);
     transition: transform 0.5s;
-    color:#5546FF;
+    color:black;
     @apply font-black
     /* font-weight: 900; */
 
   }
-  .char3 {
-    color:white;
-    /* font-weight: 900; */
-  }
+  
 
   .gt .char,
   .gt .char2,
