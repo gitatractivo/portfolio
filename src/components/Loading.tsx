@@ -3,7 +3,6 @@ import gsap, { Power1, Power4 } from "gsap";
 import { useRef } from "react";
 import SplitType from "split-type";
 import "../loading.css";
-import FluidGradient from "./FluidGradient";
 
 type LoadingProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
