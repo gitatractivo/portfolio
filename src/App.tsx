@@ -10,17 +10,19 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
+import Locomotive from "locomotive-scroll";
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
-  const locomotiveRef = useRef(null);
+  const locomotiveRef = useRef<Locomotive | null>(null);
 
   useLayoutEffect(() => {
     (async () => {
-      // @ts-ignore
-      const Locomotive = (await import("locomotive-scroll")).default;
+      const LocomotiveModule = await import("locomotive-scroll");
+      const Locomotive = LocomotiveModule.default;
+      
       locomotiveRef.current = new Locomotive({
         lenisOptions: {
           wrapper: window,
@@ -30,19 +32,19 @@ function App() {
           orientation: "vertical",
           gestureOrientation: "vertical",
           smoothWheel: true,
-          smoothTouch: true, // Enable smooth scrolling on touch devices
-          touchMultiplier: 1, // Adjust this value to control touch sensitivity
-          wheelMultiplier: 1, // Adjust this value to control wheel sensitivity
-
-          //  @ts-ignore
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+          // smoothTouch: true,
+          touchMultiplier: 1,
+          wheelMultiplier: 1,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         },
       });
     })();
     window.scrollTo(0, 0);
 
     return () => {
-      // locomotiveRef.current.destroy();
+      if (locomotiveRef.current) {
+        locomotiveRef.current.destroy();
+      }
     };
   }, []);
 
@@ -66,30 +68,36 @@ function App() {
   }, []);
 
   return (
-    // {/* @ts-ignore */}
-    <div
-      ref={containerRef}
-      id="main"
-      className="app w-screen min-h-dvh overflow-x-hidden scrollbar-none"
-    >
-      <NavBar />
-      <Loading setIsLoading={setIsLoading} />
-      <Hero
-        isLoading={isLoading}
-        isLoaded={isLoaded}
-        setIsLoaded={setIsLoaded}
-      />
+    <>
+      <div
+        ref={containerRef}
+        id="main"
+        className="  w-screen min-h-dvh overflow-x-hidden scrollbar-none"
+      >
+        {/* Existing desktop layout */}
+        <Loading setIsLoading={setIsLoading} />
+        <Base />
+        
+          <NavBar />
+          <Hero
+            isLoading={isLoading}
+            isLoaded={isLoaded}
+            setIsLoaded={setIsLoaded}
+          />
+          {isLoaded && (
+            <>
+              <Whoam isLoaded={isLoaded} />
+              {isLoaded && <Horizontal />}
+              <Projects />
+              <Footer />
+            </>
+          )}
+        
+        
+      </div>
 
-      <Base />
-      {isLoaded && (
-        <>
-          <Whoam isLoaded={isLoaded} />
-          {isLoaded && <Horizontal />}
-          <Projects />
-          <Footer />
-        </>
-      )}
-    </div>
+      
+    </>
   );
 }
 

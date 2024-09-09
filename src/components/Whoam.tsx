@@ -1,6 +1,6 @@
 import { useGSAP } from '@gsap/react';
 import { useIntersection } from '@mantine/hooks';
-import gsap, { Power1, Power2, Power3, Power4, } from 'gsap';
+import gsap, { Power1, Power3, Power4, } from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import { useRef, useState } from 'react';
 import SplitType from 'split-type';

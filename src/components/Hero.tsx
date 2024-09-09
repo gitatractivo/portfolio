@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react";
-import gsap, { Expo, Power4 } from "gsap";
-import { ScrollTrigger } from "gsap/all";
+import gsap, { Expo, Power1, Power4 } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import SplitType from "split-type";
 import roundedOut from "../assets/Subtract.png";
@@ -15,8 +15,9 @@ type Props = {
 const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLButtonElement>(null);
-  const splitRef = useRef<HTMLButtonElement>(null);
-  const wordref = useRef(null);
+  const splitRef = useRef<SplitType | null>(null);
+  const wordref = useRef<HTMLHeadingElement>(null);
+  const heroSectionRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -36,79 +37,100 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
       tl2.to(".snap-mar", { yPercent: -200 });
       tl2.to(".snap-mar", { yPercent: -300 });
       tl2.to(".snap-mar", { yPercent: -400 });
-      //@ts-ignore
-      splitRef.current = new SplitType(wordref.current);
-      const tl = gsap.timeline();
+      
+      if (wordref.current) {
+        splitRef.current = new SplitType(wordref.current);
+        const tl = gsap.timeline();
 
-      // console.log(parentRef.current?.classList.remove('!translate-y-full'))
-      tl.to(parentRef.current, {
-        x: 0,
-        y: 0,
-        duration: 1.6,
-        ease: Power4.easeInOut,
-      });
+        // console.log(parentRef.current?.classList.remove('!translate-y-full'))
+        tl.to(parentRef.current, {
+          x: 0,
+          y: 0,
+          duration: 1.6,
+          ease: Power4.easeInOut,
+        });
 
-      tl.to(
-        parentRef.current,
-        {
-          clipPath: "circle(120% at 50% 50%)",
+        tl.to(
+          parentRef.current,
+          {
+            clipPath: "circle(120% at 50% 50%)",
 
-          duration: 2,
-          borderRadius: 0,
-          ease: Power4.easeInOut,
-        },
-        "<+0.25"
-      );
-      tl.to(
-        // @ts-ignore
-        splitRef.current.chars,
-        {
-          yPercent: -100,
-          duration: 0.5,
-          stagger: 0.04,
-          ease: Power4.easeInOut,
-          backgroundColor: "black",
-        },
-        "<+0.6"
-      );
+            duration: 2,
+            borderRadius: 0,
+            ease: Power4.easeInOut,
+          },
+          "<+0.25"
+        );
+        tl.to(
+          splitRef.current.chars,
+          {
+            yPercent: -100,
+            duration: 0.5,
+            stagger: 0.04,
+            ease: Power4.easeInOut,
+            backgroundColor: "black",
+          },
+          "<+0.6"
+        );
 
-      tl.from(
-        ".nav",
-        {
-          scale:0.1,
-          opacity: 0,
-          duration: 1,
-          ease: Power4.easeInOut,
-        },
-        ">-1"
-      );
-      tl.call(
-        () => {
-          // scroll.start()
-          setIsLoaded(true);
-        },
-        // @ts-ignore
-        null,
-        "<+0.5"
-      );
-      tl.to(
-        ".base",
-        {
-          display: "none",
-          delay: 0,
-        },
-        ">"
-      );
-      tl.to(
-        "#main",
-        {
-          backgroundColor: "rgba(209, 213, 219, 1)",
-          opacity: 1,
-          duration: 0,
-          ease: Power4.easeInOut,
-        },
-        ">"
-      );
+        tl.from(
+          ".nav",
+          {
+            scale: 0.1,
+            opacity: 0,
+            duration: 1,
+            ease: Power4.easeInOut,
+          },
+          ">-1"
+        );
+        tl.call(
+          () => {
+            // scroll.start()
+            setIsLoaded(true);
+          },
+          undefined,
+          "<+0.5"
+        );
+        tl.to(
+          ".base",
+          {
+            display: "none",
+            delay: 0,
+          },
+          ">"
+        );
+        tl.to(
+          "#main",
+          {
+            backgroundColor: "rgba(209, 213, 219, 1)",
+            opacity: 1,
+            duration: 0,
+            ease: Power4.easeInOut,
+          },
+          ">"
+        );
+
+        // Add the blur effect setup after the timeline ends
+        if (heroSectionRef.current) {
+          ScrollTrigger.create({
+            trigger: heroSectionRef.current,
+            start: "bottom bottom",
+            end: "bottom 50%",
+            scrub: true,
+
+            onUpdate: (self) => {
+              const blurAmount = self.progress * 24;
+              const scaleAmount = self.progress * 0.15;
+              gsap.to(".scaleDown", {
+                filter: `blur(${blurAmount}px)`,
+                scale: 1- scaleAmount,
+                duration: 0.1,
+                ease:Power1.easeInOut
+              });
+            },
+          });
+        }
+      }
     }
   }, [isLoading]);
 
@@ -119,20 +141,20 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
   }, [isLoaded]);
   // data-scroll data-scroll-section data-scroll-speed="-.3"
   return (
-    <section data-scroll data-scroll-section data-scroll-speed="-.3">
-      {/* @ts-ignore */}
+    <section 
+      ref={heroSectionRef}
+      data-scroll 
+      data-scroll-section 
+      data-scroll-speed="-.3"
+    >
+     
       <div
         ref={parentRef}
         className="clipPath bg-clip-border translate-y-full  px-[2.5vw] pt-28 md:pt-44 pb-[10vh]  w-full  z-10 overflow-hidden flex flex-col justify-between  bg-black text-white max-h-[105dvh]     h-[110vh]"
       >
-        {/* <img
-          src={roundedOut}
-          alt=""
-          className=" scale-[2] w-fit h-fit z-50  -translate-x-full"
-        /> */}
-        {/* <div className="w-full h-full rounded-lg box-border bg-white"></div> */}
+   
 
-        <div className="w-full h-full relative bg-black  left-1/2 -translate-x-1/2 overflow-hidden rounded-[14px] md:rounded-[28px] box-border">
+        <div className="w-full h-full relative bg-black  left-1/2 -translate-x-1/2 overflow-hidden rounded-[14px] md:rounded-[28px] box-border scaleDown">
           <FluidGradient />
 
           <div className="absolute top-0 w-full flex flex-col gap-10 mt-3">
@@ -168,6 +190,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
               src={roundedOut}
               alt=""
               className="absolute scale-75 md:scale-100 translate-x-1/4 md:translate-x-0 -translate-y-3/4 top-0 w-fit h-fit  right-0 md:-translate-y-full"
+              
             />
             <img
               src={roundedOut}

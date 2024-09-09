@@ -4,7 +4,7 @@ const arr = ['home', 'about', 'projects', 'contact']
 
 const NavBar = () => {
   return (
-    <nav className='mix-blend-difference z-50  opacity-1 fixed top-7 w-[95%] left-1/2 -translate-x-1/2 nav bg-opacity-70  bg-gradient-to-br from-gray-400 to-gray-50  rounded-[28px] backdrop-filter backdrop-blur-xl  px-8 py-6  mx-auto'>
+    <nav className='mix-blend-difference hidden md:block  z-50  opacity-1 fixed top-7 w-[95%] left-1/2 -translate-x-1/2 nav bg-opacity-70  bg-gradient-to-br from-gray-400 to-gray-50  rounded-[28px] backdrop-filter backdrop-blur-xl  px-8 py-6  mx-auto'>
       <div className="flex gap-6 flex-row justify-end">
         {arr.map((route) => (
           <NavButton text={route} key={route} onClick={() => console.log(route)} />
