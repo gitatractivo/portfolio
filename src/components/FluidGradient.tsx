@@ -1,32 +1,28 @@
-import { useEffect, useRef } from "react";
-import { useFrame, extend, Object3DNode, useThree } from "@react-three/fiber";
-import { shaderMaterial } from "@react-three/drei";
-import * as THREE from "three";
-import { Canvas } from "@react-three/fiber";
+import React, { useRef, useEffect } from "react";
+import { Renderer, Triangle, Program, Color, Mesh } from "ogl";
 
-// Define the props for the shader material
-type FluidMaterialProps = {
-  uTime: number;
-  uResolution: THREE.Vector2;
-};
-
-// Create the shader material
-const FluidMaterial = shaderMaterial(
-  // Uniforms
-  {
-    uTime: 0,
-    uResolution: new THREE.Vector2(),
-  },
-  // Vertex Shader
-  `
-    varying vec2 vUv;
-    void main() {
+const vert = `
+  attribute vec2 uv;
+  attribute vec2 position;
+  
+  varying vec2 vUv;
+  
+  void main() {
       vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `,
-  // Fragment Shader
-  `
+      gl_Position = vec4(position, 0, 1);
+  }
+`;
+
+const frag = `
+  precision highp float;
+  
+  uniform float uTime;
+  uniform vec3 uColor;
+  uniform vec3 uResolution;
+  
+  varying vec2 vUv;
+  
+ 
     uniform float uTime;
     uniform vec2 uResolution;
     varying vec2 vUv;
@@ -112,79 +108,90 @@ const FluidMaterial = shaderMaterial(
       
       gl_FragColor = vec4(col, 1.0);
     }
-  `
-);
+  
 
-// Extend the JSX intrinsic elements to include our custom material
-extend({ FluidMaterial });
+  void main() {
+    vec2 p = vUv.xy - 0.5;
+    p.x *= uResolution.x / uResolution.y;
+    p *= scale;
 
-// Add type declaration for our custom element
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      fluidMaterial: Object3DNode<FluidMaterialProps, typeof FluidMaterial>;
-    }
+    vec2 uv = vUv.xy;
+    vec3 col;
+    float fviz;
+
+    int vector_mode = 0;
+    Field fld = field(p, vector_mode);
+    col = getRGB(fld, vector_mode) * 0.85;
+    gl_FragColor = vec4(col, 1.0);
   }
-}
+`;
 
-function Fluid() {
-  const mesh = useRef<THREE.Mesh>(null);
-  const material = useRef<FluidMaterialProps>(null);
-  const { size, viewport } = useThree();
+const FluidGradient: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (mesh.current) {
-      // Set the mesh to cover the entire viewport
-      mesh.current.scale.set(viewport.width, viewport.height, 1);
-    }
-  }, [viewport]);
+    if (!containerRef.current) return;
 
-  useFrame((state) => {
-    if (material.current) {
-      material.current.uTime = state.clock.elapsedTime;
-      material.current.uResolution.set(size.width, size.height);
-    }
-    if (mesh.current) {
-      // Update mesh size if viewport changes
-      mesh.current.scale.set(viewport.width, viewport.height, 1);
-    }
-  });
-  return (
-    <mesh ref={mesh} position={[0, 0, 0]}>
-      <planeGeometry args={[2, 2]} />
-      <fluidMaterial ref={material} />
-    </mesh>
-  );
-}
+    const container = containerRef.current;
+    const renderer = new Renderer();
+    const gl = renderer.gl;
+    gl.clearColor(1, 1, 1, 1);
 
-const FluidGradient = () => {
+    const resize = () => {
+      renderer.setSize(container.offsetWidth, container.offsetHeight);
+    };
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    const geometry = new Triangle(gl);
+    const program = new Program(gl, {
+      vertex: vert,
+      fragment: frag,
+      uniforms: {
+        uTime: { value: 0 },
+        uColor: { value: new Color(0.3, 0.2, 0.5) },
+        uResolution: {
+          value: new Color(
+            gl.canvas.width,
+            gl.canvas.height,
+            gl.canvas.width / gl.canvas.height
+          ),
+        },
+      },
+    });
+
+    const mesh = new Mesh(gl, { geometry, program });
+
+    let animationId: number;
+
+    const update = (t: number) => {
+      animationId = requestAnimationFrame(update);
+      program.uniforms.uTime.value = t * 0.001;
+      renderer.render({ scene: mesh });
+    };
+
+    animationId = requestAnimationFrame(update);
+
+    container.appendChild(gl.canvas);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", resize);
+      container.removeChild(gl.canvas);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+    };
+  }, []);
+
   return (
-    <Canvas
+    <div
+      ref={containerRef}
       style={{
         width: "100%",
         height: "100%",
-        position: "absolute",
-        top: 0,
-        left: 0,
-
       }}
-      className="filter "
-    >
-      <Fluid />
-    </Canvas>
+    />
   );
 };
 
 export default FluidGradient;
-
-//  <div style={{ width: "100%", height: "100%" }}>
-//         <Canvas style={{
-//           width: "100%",
-//           height: "100%",
-//           position: "absolute",
-//           top: 0,
-//           left: 0,
-//         }}>
-//           <FluidGradient />
-//         </Canvas>
-//       </div>
