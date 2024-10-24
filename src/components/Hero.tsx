@@ -1,5 +1,5 @@
 import { useGSAP } from "@gsap/react";
-import gsap, { Expo, Power1, Power4 } from "gsap";
+import gsap, { Expo, Power1, Power2, Power3, Power4 } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import SplitType from "split-type";
@@ -51,7 +51,8 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
         tl.to(parentRef.current, {
           x: 0,
           y: 0,
-          duration: 1.6,
+          delay: 0.2,
+          duration: 1,
           ease: Power4.easeInOut,
         });
 
@@ -60,34 +61,34 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
           {
             clipPath: "circle(120% at 50% 50%)",
 
-            duration: 2,
+            duration: 1,
             borderRadius: 0,
+            ease: Power3.easeInOut,
+          },
+          ">-0.6"
+        );
+        tl.to(
+          ".nav",
+          {
+            scale: 1,
+            opacity: 1,
+            duration: .7,
             ease: Power4.easeInOut,
           },
-          "<+0.25"
+          ">-.9"
         );
         tl.to(
           splitRef.current.chars,
           {
             yPercent: -100,
             duration: 0.5,
-            stagger: 0.04,
-            ease: Power4.easeInOut,
+            stagger: 0.06,
+            ease: Power2.easeInOut,
             backgroundColor: "black",
           },
-          "<+0.6"
+          "<+0.2"
         );
 
-        tl.from(
-          ".nav",
-          {
-            scale: 0.1,
-            opacity: 0,
-            duration: 1,
-            ease: Power4.easeInOut,
-          },
-          ">-1"
-        );
         tl.call(
           () => {
             // scroll.start()

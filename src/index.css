@@ -13,8 +13,8 @@
   }
   .clipPath {
     clip-path: circle(50% at 50% 90%);
-    will-change: clip-path, transform;
-    transform: translateZ(0);
+    /* will-change: clip-path, transform;
+    transform: translateZ(0); */
   }
   .navbtn {
     overflow: hidden;

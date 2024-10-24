@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import NavBar from "./components/NavBar";
 import Loading from "./components/Loading";
 import { useGSAP } from "@gsap/react";
-import { lazy, Suspense } from "react";
+import Hero from "./components/Hero";
 import Base from "./components/Base";
 import Whoam from "./components/Whoam";
 import Horizontal from "./components/Horizontal";
@@ -11,8 +11,6 @@ import { ScrollTrigger } from "gsap/all";
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
 import Locomotive from "locomotive-scroll";
-
-const Hero = lazy(() => import("./components/Hero"));
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,7 +32,7 @@ function App() {
           orientation: "vertical",
           gestureOrientation: "vertical",
           smoothWheel: true,
-          // smoothTouch: true,
+
           touchMultiplier: 1,
           wheelMultiplier: 1,
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -81,13 +79,11 @@ function App() {
         <Base />
         
           <NavBar />
-          <Suspense fallback={<div>Loading Hero...</div>}>
-            <Hero
-              isLoading={isLoading}
-              isLoaded={isLoaded}
-              setIsLoaded={setIsLoaded}
-            />
-          </Suspense>
+          <Hero
+            isLoading={isLoading}
+            isLoaded={isLoaded}
+            setIsLoaded={setIsLoaded}
+          />
           {isLoaded && (
             <>
               <Whoam isLoaded={isLoaded} />

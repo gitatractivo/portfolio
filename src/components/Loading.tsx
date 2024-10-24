@@ -25,9 +25,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
           splitRef.current.words.map((word) => word.children[0]),
           {
             y: 0,
-            delay: 0.1,
-            duration: 0.05,
-            stagger: 0.02,
+            duration: 0.001,
             ease: Power4.easeInOut,
           }
         );
@@ -36,8 +34,8 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
             y: 0,
             fontWeight: 900,
             className: "char2",
-            delay: 1,
-            duration: 0.1,
+            delay: 0.5,
+            duration: 0.15,
             stagger: 0.024,
             ease: Power1.easeIn,
           });
@@ -50,7 +48,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
               y: 0,
               fontWeight: 900,
               className: "char2",
-              duration: 0.1,
+              duration: 0.15,
               stagger: 0.04,
               ease: Power1.easeIn,
             },
@@ -61,16 +59,16 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
 
         
         tl.to(".gt", {
-          delay: 0.5,
-          duration: 0.4,
-          className: "gt  font-[#5546FF]",
+          delay: 0.0625,
+          duration: 0.04,
+          className: "gt  ",
         });
 
         tl.to(
           splitRef.current.chars,
           {
             fontWeight: 900,
-            duration: 0.4,
+            duration: 0.15,
 
             className: "font-black char3",
           },
@@ -120,7 +118,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
     >
       <h1
         ref={wordref}
-        className="gt z-10 overflow-hidden inline-block bg-white text-black  px-2 py-1 md:px-6   "
+        className="gt z-10 overflow-hidden inline-block bg-gradient-to-tl from-white to-[rgba(160,172,242,0.8)] text-black  px-2 py-1 md:px-6   "
       >
         Gitanshu Talwar
       </h1>
