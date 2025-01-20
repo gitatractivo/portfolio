@@ -14,15 +14,12 @@
     /* font-weight: 900; */
 
   }
-  
 
   .gt .char,
   .gt .char2,
   .gt .char3 {
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-    /* line-height: 2rem; */
     font-weight: 900 !important;
-
   }
 
   .gt .line:first-child :first-child {

@@ -1,9 +1,10 @@
-import { useGSAP } from '@gsap/react';
-import { useIntersection } from '@mantine/hooks';
-import gsap, { Power1, Power3, Power4, } from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
-import { useRef, useState } from 'react';
-import SplitType from 'split-type';
+import { useGSAP } from "@gsap/react";
+import { useIntersection } from "@mantine/hooks";
+import gsap, { Power1, Power3, Power4 } from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import { useRef, useState } from "react";
+import SplitType from "split-type";
+import Projects from "./Projects";
 
 type Props = {
   isLoaded: boolean;
@@ -16,19 +17,19 @@ const Whoam = ({ isLoaded }: Props) => {
   const splitRef2 = useRef<SplitType | null>(null);
   const [revealed1, setRevealed1] = useState(false);
   const [revealed2, setRevealed2] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const { ref: whoIntersectionRef, entry: whoEntry } = useIntersection({
     root: null,
     threshold: 1,
-    rootMargin: '30%',
+    rootMargin: "30%",
   });
 
   const { ref: pIntersectionRef, entry: pEntry } = useIntersection({
     root: null,
     threshold: 1,
-    rootMargin: '25%',
+    rootMargin: "25%",
   });
 
   const tl = gsap.timeline();
@@ -36,33 +37,33 @@ const Whoam = ({ isLoaded }: Props) => {
     // console.log(whoEntry)
     gsap.registerPlugin(ScrollTrigger);
 
-
     if (!revealed1 && whoEntry?.isIntersecting) {
       // @ts-ignore
       splitRef1.current = new SplitType(whoRef.current);
       console.log(splitRef1.current);
       if (splitRef1.current) {
-        tl.fromTo(splitRef1.current.chars, {
-          opacity: 0,
-        }, {
-          opacity: 1,
-          yPercent: "-300",
-          duration: 0.7,
-          ease: Power4.easeInOut,
-          stagger: 0.08,
-          delay: 0.01,
-        });
+        tl.fromTo(
+          splitRef1.current.chars,
+          {
+            opacity: 0,
+          },
+          {
+            opacity: 1,
+            yPercent: "-300",
+            duration: 0.7,
+            ease: Power4.easeInOut,
+            stagger: 0.08,
+            delay: 0.01,
+          }
+        );
       }
       setRevealed1(true);
     }
-
-
   }, [whoEntry?.isIntersecting, isLoaded]);
 
   useGSAP(() => {
     // console.log(pEntry?.isIntersecting)
     if (!revealed2 && pEntry?.isIntersecting) {
-
       // @ts-ignore
       splitRef2.current = new SplitType(pRef.current);
       console.log("2", splitRef2.current);
@@ -106,21 +107,23 @@ const Whoam = ({ isLoaded }: Props) => {
         // markers: true
       },
     });
-    tl.to(containerRef.current, {
-      filter:"blur(0px)",
-      ease: Power1.easeIn,
-      
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "top 2%",
-        scrub: 0.5,
-        
-        // markers: true
-      }
-    },"<")
-    
+    tl.to(
+      containerRef.current,
+      {
+        filter: "blur(0px)",
+        ease: Power1.easeIn,
 
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "top 2%",
+          scrub: 0.5,
+
+          // markers: true
+        },
+      },
+      "<"
+    );
 
     ScrollTrigger.create({
       trigger: containerRef.current,
@@ -128,32 +131,36 @@ const Whoam = ({ isLoaded }: Props) => {
         // locomotiveScroll.stop();
         tl.to(contentRef.current, {
           // @ts-ignore
-          y: -(self.progress * (contentRef.current?.scrollHeight - window.innerHeight)) + "px" + "+7.1vw",
+          y:
+            -(
+              self.progress *
+              (contentRef.current?.scrollHeight - window.innerHeight)
+            ) +
+            "px" +
+            "+7.1vw",
           duration: 0,
-
-        })
+        });
       },
       start: "top 2%",
       endTrigger: contentRef.current,
       end: "bottom 2%",
       scrub: 1,
       // markers:true,
-      pin: true
-
-
-    })
-
+      pin: true,
+    });
   }, []);
 
   return (
     <section
+      id="about"
       data-scroll
       data-scroll-section
       data-scroll-speed="+.7"
       data-scroll-offset="-200%,0"
-      className="z-30 parentContainer relative bg-gray-300 w-screen overflow-x-hidden min-h-screen rounded-t-3xl md:rounded-t-[3vw]  pt-[7vh] pb-16 shadow-[0_-20px_30px_-20px_#0e004b] flex flex-col"
+      className="z-30  relative bg-gray-300 w-screen overflow-x-hidden min-h-screen rounded-t-3xl md:rounded-t-[3vw]  pt-[7vh] pb-16 shadow-[0_-20px_30px_-20px_#0e004b] flex flex-col"
     >
-      <div  className=" flex px-[7vw] flex-col md:flex-row">
+      {/* <Projects /> */}
+      <div className=" flex px-[7vw] flex-col md:flex-row">
         <div className="flex flex-col justify-center min-h-[80vh] w-full items-center h-full">
           <h1
             ref={(el) => {
@@ -184,7 +191,7 @@ const Whoam = ({ isLoaded }: Props) => {
         data-scroll
         data-scroll-section
         data-scroll-speed="-.7"
-        className="parentContainer1 py-5"
+        className=" py-5"
       >
         <div
           ref={containerRef}

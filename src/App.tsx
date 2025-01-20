@@ -11,6 +11,7 @@ import { ScrollTrigger } from "gsap/all";
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
 import Locomotive from "locomotive-scroll";
+import { ScrollProvider } from "./contexts/ScrollContext";
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +33,6 @@ function App() {
           orientation: "vertical",
           gestureOrientation: "vertical",
           smoothWheel: true,
-
           touchMultiplier: 1,
           wheelMultiplier: 1,
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -68,36 +68,34 @@ function App() {
   }, []);
 
   return (
-    <>
+    <ScrollProvider locomotiveRef={locomotiveRef}>
       <div
         ref={containerRef}
         id="main"
-        className="  w-screen min-h-dvh overflow-x-hidden scrollbar-none"
+        className="w-screen min-h-dvh overflow-x-hidden scrollbar-none"
       >
         {/* Existing desktop layout */}
         <Loading setIsLoading={setIsLoading} />
         <Base />
-        
-          <NavBar />
-          <Hero
-            isLoading={isLoading}
-            isLoaded={isLoaded}
-            setIsLoaded={setIsLoaded}
-          />
-          {isLoaded && (
-            <>
-              <Whoam isLoaded={isLoaded} />
-              {isLoaded && <Horizontal />}
-              <Projects />
-              <Footer />
-            </>
-          )}
-        
-        
-      </div>
 
-      
-    </>
+        <NavBar />
+        <Hero
+          isLoading={isLoading}
+          isLoaded={isLoaded}
+          setIsLoaded={setIsLoaded}
+        />
+        {isLoaded && (
+          <>
+            {/* <Projects isLoaded={isLoaded} /> */}
+            <Whoam isLoaded={isLoaded} />
+            {isLoaded && <Horizontal />}
+            <Projects />
+
+            <Footer />
+          </>
+        )}
+      </div>
+    </ScrollProvider>
   );
 }
 

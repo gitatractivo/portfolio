@@ -6,6 +6,7 @@ import SplitType from "split-type";
 import roundedOut from "../assets/Subtract.png";
 // import FluidGradient from "./FluidGradient";
 import { Velustro } from "uvcanvas";
+import MobileMenu from "./MobileMenu";
 
 
 type Props = {
@@ -84,7 +85,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
             duration: 0.5,
             stagger: 0.06,
             ease: Power2.easeInOut,
-            backgroundColor: "black",
+
           },
           "<+0.2"
         );
@@ -128,12 +129,18 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
               const blurAmount = self.progress * 24;
               const scaleAmount = window.innerWidth < 768 ? self.progress * 0.05 : self.progress * 0.15;
               
-              gsap.to(".scaleDown", {
+              const animate: gsap.TweenVars={
                 filter: `blur(${blurAmount}px)`,
-                scale: 1 - scaleAmount,
                 duration: 0.1,
                 ease: Power1.easeInOut,
-              });
+              }
+
+              //ignore scaling in mobile view
+              if (window.innerWidth > 768) {
+                animate.scale = 1 - scaleAmount;
+              }
+
+              gsap.to(".scaleDown", animate);
             },
           });
         }
@@ -169,6 +176,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
 
   return (
     <section
+      id="home"
       ref={heroSectionRef}
       data-scroll
       data-scroll-section
@@ -176,7 +184,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
     >
       <div
         ref={parentRef}
-        className="clipPath bg-clip-border translate-y-full  md:px-[2.5vw] p-0 md:pt-44  md:pb-[10vh]  w-full  z-10 overflow-hidden flex flex-col justify-between  bg-black text-white max-h-[105dvh]     h-[110vh]"
+        className="clipPath bg-clip-border translate-y-full  md:px-[2.5vw] p-0 md:pt-44  md:pb-[10vh]  w-full  z-10 overflow-hidden flex flex-col justify-between  bg-black text-white max-h-[105dvh]    h-[100dvh] md:h-[110vh]"
       >
         <div className="w-full h-full relative bg-black  left-1/2 -translate-x-1/2 overflow-hidden md:rounded-[28px] box-border scaleDown">
           <div
@@ -184,9 +192,10 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
             className={`w-[800px] h-[800px]   origin-top-left  hue-rotate-330 filter gradient-mask`}
           >
             <Velustro />
-            
           </div>
-          <div className="absolute top-0 w-full flex flex-col gap-10 mt-3">
+
+          <MobileMenu/>
+          <div className="absolute top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 w-full flex flex-col gap-10 mt-3">
             <div className="flex flex-col  w-full iam justify-start gap-0 text-[34px]   md:text-4xl lg:text-7xl mx-5 md:mx-[4vw]  tracking-tighter   !leading-tight font-bold  line-clamp-1">
               <h1 className="">I am a </h1>
               <h1 className="flex relative font-black md:font-bold gap-3 md:gap-4 overflow-hidden w-full">
@@ -206,7 +215,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
               </h1>
             </div>
           </div>
-          <div className="w-fit  absolute rounded-tl-[14px] md:rounded-tl-[28px]    bottom-0 right-0 px-3 bg-black ">
+          <div className="w-fit  absolute rounded-tl-[14px] md:rounded-tl-[28px]    bottom-0 right-0 px-3 md:bg-black ">
             <img
               src={roundedOut}
               alt=""
@@ -218,7 +227,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
               className=" absolute hidden md:block scale-75 md:scale-100 -translate-x-3/4 md:-translate-x-full translate-y-1/4 md:translate-y-0 bottom-0 w-fit h-fit  left-0  "
             />
 
-            <div className="w-fit overflow-hidden bg-black rounded-tl-[14px] md:rounded-tl-[28px]">
+            <div className="w-fit overflow-hidden md:bg-black rounded-tl-[14px] md:rounded-tl-[28px]">
               <div
                 ref={wordref}
                 className="w-full  z-10  uppercase font-black text-6xl lg:text-[13vw] text-right  translate-y-full inline-block"
