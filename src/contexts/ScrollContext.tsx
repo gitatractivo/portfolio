@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, ReactNode, MutableRefObject } from "react";
 import type Locomotive from "locomotive-scroll";
 
 type ScrollContextType = {
@@ -8,17 +8,24 @@ type ScrollContextType = {
 
 export const ScrollContext = createContext<ScrollContextType | null>(null);
 
-export const ScrollProvider = ({ children, locomotiveRef }) => {
+type ScrollProviderProps = {
+  children: ReactNode;
+  locomotiveRef: MutableRefObject<Locomotive | null>;
+};
+
+export const ScrollProvider = ({
+  children,
+  locomotiveRef,
+}: ScrollProviderProps) => {
   const scrollTo = (target: string) => {
     const targetElement = document.querySelector(target);
-    console.log(locomotiveRef.current, target,targetElement);
+    console.log(locomotiveRef.current, target, targetElement);
     if (locomotiveRef.current) {
-
+      // @ts-ignore
       locomotiveRef.current.scrollTo(targetElement, {
         offset: 0,
         duration: 2,
         lerp: 0.07,
-
       });
     }
   };

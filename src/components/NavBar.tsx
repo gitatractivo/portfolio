@@ -4,7 +4,6 @@ import { useScroll } from "../contexts/ScrollContext";
 const arr = ["home", "about", "projects", "contact"];
 
 const NavBar = () => {
-  
   return (
     <nav
       style={{
@@ -18,7 +17,6 @@ const NavBar = () => {
           <NavButton
             text={route}
             key={route}
-            
           />
         ))}
       </div>
@@ -26,14 +24,11 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
-
-type NavButtonProps = {
+interface NavButtonProps {
   text: string;
-  // onClick: () => void;
-};
+}
 
-const NavButton = ({ text,  }: NavButtonProps) => {
+const NavButton = ({ text }: NavButtonProps) => {
   const ref = useRef<HTMLButtonElement>(null);
   const { scrollTo } = useScroll();
 
@@ -55,14 +50,6 @@ const NavButton = ({ text,  }: NavButtonProps) => {
         ref.current.style.setProperty("--y", y + "px");
       }
     };
-    // const handleMouseEnter = (e: MouseEvent) => {
-    //   if (ref.current) {
-    //     const x = e.clientX - ref.current.getBoundingClientRect().x
-    //     const y = e.clientY - ref.current.getBoundingClientRect().y;
-    //     ref.current.style.setProperty('--x', x + 'px');
-    //     ref.current.style.setProperty('--y', y - 75 + 'px');
-    //   }
-    // };
 
     if (ref.current) {
       ref.current.addEventListener("mousemove", handleMouseMove);
@@ -83,9 +70,11 @@ const NavButton = ({ text,  }: NavButtonProps) => {
     <button
       ref={ref}
       onClick={() => scrollTo(`#${text}`)}
-      className=" navbtn uppercase bg-transparent font-bold text-black relative tracking-widest px-6 py-3 rounded-full border-2 hover:text-white z-10 before:translate-x-1/2 before:translate-y-1/2 border-black"
+      className="navbtn uppercase bg-transparent font-bold text-black relative tracking-widest px-6 py-3 rounded-full border-2 hover:text-white z-10 before:translate-x-1/2 before:translate-y-1/2 border-black"
     >
       <span className="z-50 relative">{text}</span>
     </button>
   );
 };
+
+export default NavBar;
