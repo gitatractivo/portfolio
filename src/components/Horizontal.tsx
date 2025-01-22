@@ -44,22 +44,22 @@ const Horizontal = () => {
       });
 
       colorTimeline.to(container, {
-        backgroundColor: "#ffb833",
+        backgroundColor: "#4b7287",
         duration: 0.25,
       });
 
       colorTimeline.to(container, {
-        backgroundColor: "#00ffd5",
+        backgroundColor: "#447f75",
         duration: 0.25,
       });
 
       colorTimeline.to(container, {
-        backgroundColor: "#ff00ff",
+        backgroundColor: "#294d45",
         duration: 0.25,
       });
 
       colorTimeline.to(container, {
-        backgroundColor: "#0909C4",
+        backgroundColor: "#1a1a6f",
         duration: 0.25,
       });
 

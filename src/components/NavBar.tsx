@@ -14,10 +14,7 @@ const NavBar = () => {
     >
       <div className="flex gap-6 flex-row justify-end">
         {arr.map((route) => (
-          <NavButton
-            text={route}
-            key={route}
-          />
+          <NavButton text={route} key={route} />
         ))}
       </div>
     </nav>
