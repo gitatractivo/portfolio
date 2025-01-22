@@ -8,7 +8,7 @@ type LoadingProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-// TODO: change color to this #141243
+
 
 const Loading = ({ setIsLoading }: LoadingProps) => {
   const splitRef = useRef<SplitType | null>(null);

@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RxCross2, RxHamburgerMenu } from 'react-icons/rx';
 import cn from '../utils/cn';
+import { useScroll } from '../contexts/ScrollContext';
+
+const arr = ["home", "about", "projects", "contact"];
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,13 +50,10 @@ const MobileMenu = () => {
       >
         {/* Add your menu content here */}
         <div className="flex items-center justify-center h-full text-white">
-          <nav>
-            <ul className="text-2xl space-y-6">
-              <li>Home</li>
-              <li>About</li>
-              <li>Services</li>
-              <li>Contact</li>
-            </ul>
+          <nav className="text-2xl flex flex-col space-y-6">
+            {arr.map((route) => (
+              <NavButton text={route} key={route} />
+            ))}
           </nav>
         </div>
       </div>
@@ -61,4 +61,25 @@ const MobileMenu = () => {
   );
 };
 
+
+
+interface NavButtonProps {
+  text: string;
+}
+
+const NavButton = ({ text }: NavButtonProps) => {
+  const ref = useRef<HTMLButtonElement>(null);
+  const { scrollTo } = useScroll();
+
+
+  return (
+    <button
+      ref={ref}
+      onClick={() => scrollTo(`#${text}`)}
+      className=""
+    >
+      <span className="z-50 uppercase font-black hover:text-zinc-300 hover:opacity-80 relative">{text}</span>
+    </button>
+  );
+};
 export default MobileMenu;
