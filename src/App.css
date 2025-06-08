@@ -27,6 +27,18 @@
   }
 }
 
+@keyframes blink{
+  0%,49.9%{
+    opacity: 1;
+  }
+  50%,99.9%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
