@@ -206,7 +206,8 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
             <div className="flex flex-col  w-full iam justify-start gap-0 text-[34px]   md:text-4xl lg:text-7xl mx-5 md:mx-[4vw]  tracking-tighter   !leading-tight font-bold  line-clamp-1">
               <h1 className="">I am a </h1>
               <h1 className="flex relative font-black md:font-bold gap-3 md:gap-4 overflow-hidden w-full">
-                _
+                <span className="animate-blink">_</span>
+
                 <span ref={marqueeRef} className="snap-parent w-full">
                   <span className="w-full absolute snap-container overflow-y-hidden">
                     {roles.map((role, index) => (
