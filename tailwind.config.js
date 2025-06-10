@@ -7,6 +7,9 @@ export default {
         "-330": "-330deg",
         330: "330deg",
       },
+      animation: {
+        blink: "blink 1s infinite",
+      },
     },
   },
   plugins: [
