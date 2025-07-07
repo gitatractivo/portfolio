@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import {  useRef, useState } from 'react';
 import { RxCross2, RxHamburgerMenu } from 'react-icons/rx';
 import cn from '../utils/cn';
 import { useScroll } from '../contexts/ScrollContext';

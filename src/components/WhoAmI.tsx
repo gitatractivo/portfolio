@@ -52,7 +52,7 @@ const WhoAmI = ({ isLoaded }: Props) => {
   }, [whoEntry?.isIntersecting, isLoaded]);
 
   useGSAP(() => {
-    if (!revealed2 && pEntry?.isIntersecting&& pRef.current) {
+    if (!revealed2 && pEntry?.isIntersecting && pRef.current) {
       splitRef2.current = new SplitType(pRef.current);
       if (splitRef2.current) {
         tl.from(splitRef2.current.lines, {
@@ -93,7 +93,38 @@ const WhoAmI = ({ isLoaded }: Props) => {
           impactful projects.
         </p>
       </div>
-      <div className="w-full"></div>
+      {/* Profile Image - Twitter */}
+      <div className="w-full flex justify-center items-center mt-8">
+        <img
+          onClick={() => {
+            window.open("https://twitter.com/gitatractivo", "_blank");
+          }}
+          ref={(img) => {
+            if (img) {
+              // gsap.fromTo(
+              //   img,
+              //   { scale: 0.5, opacity: 0 },
+              //   {
+              //     scale: 1,
+              //     opacity: 1,
+              //     duration: 1.1,
+              //     ease: Power4.easeOut,
+              //     delay: 0.2,
+              //     // cute bounce
+              //     y: -10,
+              //     yoyo: true,
+              //     repeat: 1,
+              //     repeatDelay: 0.1,
+              //   }
+              // );
+            }
+          }}
+          src="https://unavatar.io/twitter/gitatractivo"
+          alt="Gitanshu Talwar Twitter Profile"
+          className="w-40 h-40 lg:w-96 lg:h-96 rounded-full border-4 border-black-400 shadow-lg object-cover bg-white"
+          style={{ background: "white" }}
+        />
+      </div>
     </div>
   );
 };
