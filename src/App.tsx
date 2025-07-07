@@ -55,6 +55,7 @@ function App() {
         yPercent: -200,
         paused: true,
         duration: 0.2,
+        force3D: true,
       })
       .progress(1);
 
@@ -64,6 +65,7 @@ function App() {
       onUpdate: (self) => {
         self.direction === -1 ? navAnimation.play() : navAnimation.reverse();
       },
+
     });
   }, []);
 

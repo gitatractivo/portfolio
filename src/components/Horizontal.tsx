@@ -22,6 +22,7 @@ const Horizontal = () => {
       let scrollTween = gsap.to(text, {
         x: () => -(text.scrollWidth - document.documentElement.clientWidth + 80) + 'px',
         ease: 'none',
+        force3D: true,
         scrollTrigger: {
           trigger: container,
           invalidateOnRefresh: true,
@@ -35,6 +36,7 @@ const Horizontal = () => {
       gsap.set(container, { backgroundColor: "#000000" }); // Set initial color to black
 
       const colorTimeline = gsap.timeline({
+        force3D: true,
         scrollTrigger: {
           trigger: container,
           start: "top top",
@@ -44,21 +46,25 @@ const Horizontal = () => {
       });
 
       colorTimeline.to(container, {
+        force3D: true,
         backgroundColor: "#4b7287",
         duration: 0.25,
       });
 
       colorTimeline.to(container, {
+        force3D: true,
         backgroundColor: "#447f75",
         duration: 0.25,
       });
 
       colorTimeline.to(container, {
+        force3D: true,
         backgroundColor: "#294d45",
         duration: 0.25,
       });
 
       colorTimeline.to(container, {
+        force3D: true,  
         backgroundColor: "#1a1a6f",
         duration: 0.25,
       });
@@ -79,6 +85,7 @@ const Horizontal = () => {
             duration: 1,
             ease: Back.easeOut.config(1.2),
             stagger: 0.1,
+            force3D: true,
             scrollTrigger: {
               trigger: char,
               start,
@@ -94,7 +101,8 @@ const Horizontal = () => {
               duration:1,
               ease:Power4.easeInOut,
               delay:0.5,
-              yoyo:true
+              yoyo:true,
+              force3D: true,
             })
           }
         })

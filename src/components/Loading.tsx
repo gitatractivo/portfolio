@@ -21,12 +21,12 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
         const tl = gsap.timeline();
 
         tl.to(
-
           splitRef.current.words.map((word) => word.children[0]),
           {
             y: 0,
             duration: 0.001,
             ease: Power4.easeInOut,
+            force3D: true,
           }
         );
         if (splitRef.current.words[0]?.children) {
@@ -38,6 +38,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
             duration: 0.15,
             stagger: 0.024,
             ease: Power1.easeIn,
+            force3D: true,
           });
         }
 
@@ -51,6 +52,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
               duration: 0.15,
               stagger: 0.04,
               ease: Power1.easeIn,
+              force3D: true,
             },
             "<"
           );
@@ -69,7 +71,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
           {
             fontWeight: 900,
             duration: 0.15,
-
+            
             className: "font-black char3",
           },
           "<"
@@ -81,6 +83,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
           scale: 80,
           ease: Power4.easeIn,
           backgroundColor: "white",
+          force3D: true,
         });
        
         tl.to(
@@ -89,6 +92,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
             duration: 1,
             ease: Power4.easeIn,
             backgroundColor: "transparent",
+            force3D: true,
           },
           "<"
         );
@@ -96,6 +100,7 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
           ".dis",
           {
             className: "hidden",
+            force3D: true,
           },
           ">"
         );

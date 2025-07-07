@@ -36,6 +36,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
           delay: 1,
           ease: Expo.easeInOut,
           repeatDelay: 0,
+          // force3D: true,
         },
       });
       tl2.to(".snap-mar", { yPercent: 0, delay: 0, duration: 0 });
@@ -55,6 +56,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
           delay: 0.2,
           duration: 1,
           ease: Power4.easeInOut,
+          force3D: true,
         });
 
         tl.to(
@@ -65,6 +67,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
             duration: 1,
             borderRadius: 0,
             ease: Power3.easeInOut,
+            force3D: true,
           },
           ">-0.6"
         );
@@ -75,6 +78,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
             opacity: 1,
             duration: .7,
             ease: Power4.easeInOut,
+            force3D: true,
           },
           ">-.9"
         );
@@ -85,7 +89,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
             duration: 0.5,
             stagger: 0.06,
             ease: Power2.easeInOut,
-
+            force3D: true,
           },
           "<+0.2"
         );
@@ -103,6 +107,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
           {
             display: "none",
             delay: 0,
+            force3D: true,
           },
           ">"
         );
@@ -113,6 +118,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
             opacity: 1,
             duration: 0,
             ease: Power4.easeInOut,
+
           },
           ">"
         );
@@ -133,6 +139,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
                 filter: `blur(${blurAmount}px)`,
                 duration: 0.1,
                 ease: Power1.easeInOut,
+                force3D: true,
               }
 
               //ignore scaling in mobile view
