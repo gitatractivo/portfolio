@@ -1,6 +1,6 @@
-  import { useGSAP } from "@gsap/react";
+import { useGSAP } from "@gsap/react";
 import gsap, { Power4 } from "gsap";
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
 
 type Props = {
@@ -13,31 +13,43 @@ const WhoAmI = ({ isLoaded }: Props) => {
   const splitRef1 = useRef<SplitType | null>(null);
   const splitRef2 = useRef<SplitType | null>(null);
 
+  useLayoutEffect(() => {
+    if (whoRef.current) {
+      splitRef1.current = new SplitType(whoRef.current);
+    }
+    if (pRef.current) {
+      splitRef2.current = new SplitType(pRef.current);
+    }
+    return () => {
+      splitRef1.current?.revert();
+      splitRef2.current?.revert();
+      splitRef1.current = null;
+      splitRef2.current = null;
+    };
+  }, []);
+
   useGSAP(() => {
     if (!isLoaded) return;
 
     const ctx = gsap.context(() => {
-      if (whoRef.current) {
-        splitRef1.current = new SplitType(whoRef.current);
-        if (splitRef1.current) {
-          gsap.fromTo(
-            splitRef1.current.chars,
-            { opacity: 0 },
-            {
-              opacity: 1,
-              yPercent: "-300",
-              duration: 0.7,
-              ease: Power4.easeInOut,
-              stagger: 0.08,
-              delay: 0.01,
-              scrollTrigger: {
-                trigger: whoRef.current,
-                start: "top 80%",
-                once: true,
-              }
-            }
-          );
-        }
+      if (splitRef1.current?.chars && whoRef.current) {
+        gsap.fromTo(
+          splitRef1.current.chars,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            yPercent: "-300",
+            duration: 0.7,
+            ease: Power4.easeInOut,
+            stagger: 0.08,
+            delay: 0.01,
+            scrollTrigger: {
+              trigger: whoRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
       }
     });
 
@@ -48,22 +60,19 @@ const WhoAmI = ({ isLoaded }: Props) => {
     if (!isLoaded) return;
 
     const ctx = gsap.context(() => {
-      if (pRef.current) {
-        splitRef2.current = new SplitType(pRef.current);
-        if (splitRef2.current) {
-          gsap.from(splitRef2.current.lines, {
-            yPercent: "700",
-            duration: 1,
-            ease: Power4.easeInOut,
-            stagger: 0.3,
-            delay: 0.3,
-            scrollTrigger: {
-              trigger: pRef.current,
-              start: "top 80%",
-              once: true,
-            }
-          });
-        }
+      if (splitRef2.current?.lines && pRef.current) {
+        gsap.from(splitRef2.current.lines, {
+          yPercent: "700",
+          duration: 1,
+          ease: Power4.easeInOut,
+          stagger: 0.3,
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: pRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        });
       }
     });
 

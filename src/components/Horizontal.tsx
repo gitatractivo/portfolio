@@ -1,6 +1,6 @@
 import { useGSAP } from '@gsap/react';
 import { Back,  Power4, gsap } from 'gsap';
-import { useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import SplitType from 'split-type';
 
 // gsap.registerPlugin(ScrollTrigger);
@@ -12,6 +12,17 @@ const Horizontal = ({ isLoaded }: Props) => {
   const textRef = useRef<HTMLDivElement | null>(null);
   const splitRef = useRef<SplitType | null>(null);
 
+  useLayoutEffect(() => {
+    const text = textRef.current;
+    if (text) {
+      splitRef.current = new SplitType(text);
+    }
+    return () => {
+      splitRef.current?.revert();
+      splitRef.current = null;
+    };
+  }, []);
+
   useGSAP(() => {
     if (!isLoaded) return;
 
@@ -19,8 +30,7 @@ const Horizontal = ({ isLoaded }: Props) => {
       const container = containerRef.current;
       const text = textRef.current;
 
-      if (text && container) {
-        splitRef.current = new SplitType(text);
+      if (text && container && splitRef.current?.chars) {
         let scrollTween = gsap.to(text, {
           x: () => -(text.scrollWidth - document.documentElement.clientWidth + 80) + 'px',
           ease: 'none',
@@ -71,45 +81,43 @@ const Horizontal = ({ isLoaded }: Props) => {
           duration: 0.25,
         });
 
-        if (splitRef.current && splitRef.current.chars) {
-          gsap.set(splitRef.current.chars, { willChange: "transform, opacity" });
-          const l = splitRef.current.chars.length;
-          splitRef.current.chars.forEach((char, i) => {
-            let f = i / 17 * 140
-            if(i>13) f=i/l*100+50
-            const p =f +30+"%"
-            f=i/l*80
-            const e = f+"%" 
-            let start = `right ${p}`
-            let end = `right ${e}`
-            gsap.from(char, {
-              y: 50 * (l - i) / l+15 + "vh",
-              opacity: 0,
-              duration: 1,
-              ease: Back.easeOut.config(1.2),
-              stagger: 0.1,
-              force3D: true,
-              scrollTrigger: {
-                trigger: char,
-                start,
-                end,
-                scrub: 1,
-                containerAnimation: scrollTween,
-              }
-            })
-            if (char.textContent === "o"){
-              gsap.to(char,{
-                yPercent:-10,
-                repeat:-1,
-                duration:1,
-                ease:Power4.easeInOut,
-                delay:0.5,
-                yoyo:true,
-                force3D: true,
-              })
+        gsap.set(splitRef.current.chars, { willChange: "transform, opacity" });
+        const l = splitRef.current.chars.length;
+        splitRef.current.chars.forEach((char, i) => {
+          let f = i / 17 * 140
+          if(i>13) f=i/l*100+50
+          const p =f +30+"%"
+          f=i/l*80
+          const e = f+"%" 
+          let start = `right ${p}`
+          let end = `right ${e}`
+          gsap.from(char, {
+            y: 50 * (l - i) / l+15 + "vh",
+            opacity: 0,
+            duration: 1,
+            ease: Back.easeOut.config(1.2),
+            stagger: 0.1,
+            force3D: true,
+            scrollTrigger: {
+              trigger: char,
+              start,
+              end,
+              scrub: 1,
+              containerAnimation: scrollTween,
             }
           })
-        }
+          if (char.textContent === "o"){
+            gsap.to(char,{
+              yPercent:-10,
+              repeat:-1,
+              duration:1,
+              ease:Power4.easeInOut,
+              delay:0.5,
+              yoyo:true,
+              force3D: true,
+            })
+          }
+        })
       }
     });
     

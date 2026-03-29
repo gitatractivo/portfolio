@@ -1,7 +1,6 @@
 import { useGSAP } from "@gsap/react";
-import gsap, { Expo, Power1, Power2, Power3, Power4 } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import gsap, { Expo, Power2, Power3, Power4 } from "gsap";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
 import roundedOut from "../assets/Subtract.png";
 // import FluidGradient from "./FluidGradient";
@@ -25,6 +24,16 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const velustroContainerRef = useRef<HTMLDivElement>(null);
 
+  useLayoutEffect(() => {
+    if (wordref.current) {
+      splitRef.current = new SplitType(wordref.current);
+    }
+    return () => {
+      splitRef.current?.revert();
+      splitRef.current = null;
+    };
+  }, []);
+
   useGSAP(() => {
     if (!isLoading) {
       const tl2 = gsap.timeline({
@@ -43,8 +52,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
       tl2.to(".snap-mar", { yPercent: -300 });
       tl2.to(".snap-mar", { yPercent: -400 });
 
-      if (wordref.current) {
-        splitRef.current = new SplitType(wordref.current);
+      if (wordref.current && splitRef.current?.chars) {
         const tl = gsap.timeline();
 
         // console.log(parentRef.current?.classList.remove('!translate-y-full'))
@@ -61,9 +69,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
           parentRef.current,
           {
             clipPath: "circle(120% at 50% 50%)",
-
             duration: 1,
-            borderRadius: 0,
             ease: Power3.easeInOut,
             force3D: true,
           },
@@ -121,33 +127,24 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
           ">"
         );
 
-        // Add the blur effect setup after the timeline ends
         if (heroSectionRef.current) {
-          ScrollTrigger.create({
-            trigger: heroSectionRef.current,
-            start: "bottom bottom-1%",
-            end: "bottom 50%",
-            scrub: true,
-
-            onUpdate: (self) => {
-              const blurAmount = self.progress * 24;
-              const scaleAmount = window.innerWidth < 768 ? self.progress * 0.05 : self.progress * 0.15;
-              
-              const animate: gsap.TweenVars={
-                filter: `blur(${blurAmount}px)`,
-                duration: 0.1,
-                ease: Power1.easeInOut,
-                force3D: true,
-              }
-
-              //ignore scaling in mobile view
-              if (window.innerWidth > 768) {
-                animate.scale = 1 - scaleAmount;
-              }
-              animate.overwrite = "auto";
-              gsap.to(".scaleDown", animate);
-            },
-          });
+          gsap.fromTo(
+            ".scaleDown",
+            { scale: 1, opacity: 1 },
+            {
+              scale: () => (window.innerWidth > 768 ? 0.85 : 1),
+              opacity: 0.72,
+              ease: "none",
+              force3D: true,
+              scrollTrigger: {
+                trigger: heroSectionRef.current,
+                start: "bottom bottom-1%",
+                end: "bottom 50%",
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
         }
       }
     }
@@ -191,7 +188,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
         ref={parentRef}
         className="clipPath bg-clip-border translate-y-full  md:px-[2.5vw] p-0 md:pt-44  md:pb-[10vh]  w-full  z-10 overflow-hidden flex flex-col justify-between  bg-black text-white max-h-[105dvh]    h-[100dvh] md:h-[110vh]"
       >
-        <div style={{ willChange: "filter, transform" }} className="w-full h-full relative bg-black  left-1/2 -translate-x-1/2 overflow-hidden md:rounded-[28px] box-border scaleDown">
+        <div style={{ willChange: "transform, opacity" }} className="w-full h-full relative bg-black  left-1/2 -translate-x-1/2 overflow-hidden md:rounded-[28px] box-border scaleDown">
           <div
             ref={velustroContainerRef}
             className={`w-[800px] h-[800px]   origin-top-left  hue-rotate-330 filter gradient-mask`}

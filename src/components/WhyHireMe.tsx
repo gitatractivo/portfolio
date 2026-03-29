@@ -14,39 +14,68 @@ const WhyHireMe = ({ isLoaded }: Props) => {
     if (!isLoaded) return;
 
     const ctx = gsap.context(() => {
-      gsap.to(containerRef.current, {
-        scale: 1,
-        borderRadius: "28px",
-        filter: "blur(0px)",
-        ease: Power3.easeOut,
+      const container = containerRef.current;
+      const content = contentRef.current;
+      if (!container || !content) return;
+
+      gsap.fromTo(
+        container,
+        { scaleX: 0.75, opacity: 0.85 },
+        {
+          scaleX: 1,
+          opacity: 1,
+          ease: Power3.easeOut,
+          scrollTrigger: {
+            trigger: container,
+            start: "top bottom",
+            end: "top 2%",
+            scrub: 0.5,
+          },
+        },
+      );
+
+      gsap.to(content, {
+        y: () => -Math.max(0, content.scrollHeight - window.innerHeight),
+        ease: "none",
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "top 2%",
+          trigger: container,
+          start: "top 2%",
+          endTrigger: content,
+          end: "bottom 2%",
           scrub: 0.5,
+          pin: true,
+          invalidateOnRefresh: true,
         },
       });
 
+      const setFilter = gsap.quickSetter(container, "filter");
+      const setScale = gsap.quickSetter(container, "scale");
+      const setRadius = gsap.quickSetter(container, "borderRadius");
+      const ease = gsap.parseEase("power3.inOut");
+
+
       ScrollTrigger.create({
-        trigger: containerRef.current,
+        trigger: container,
+        start: "top bottom",
+        end: "top top",
+        scrub: true,
+        
 
         onUpdate: (self) => {
-          const scrollHeight = contentRef.current?.scrollHeight ?? window.innerHeight;
-          gsap.set(contentRef.current, {
-            y:
-              -(
-                self.progress *
-                (scrollHeight - window.innerHeight)
-              ) +
-              "px" +
-              "+7.1vw",
-          });
+          const p = ease(self.progress);
+
+          const blur = (1-p) * 24;
+          const scale = window.innerWidth > 768 ? 1 - p * 0.15 : 1;
+
+
+          const MAX_RADIUS = window.innerWidth/2;
+          const MIN_RADIUS = 28;
+          const radius = MIN_RADIUS + (1 - p) * (MAX_RADIUS - MIN_RADIUS);
+
+          setFilter(`blur(${blur}px)`);
+          setScale(scale);
+          setRadius(`${radius}px`);
         },
-        start: "top 2%",
-        endTrigger: contentRef.current,
-        end: "bottom 2%",
-        scrub: 0.5,
-        pin: true,
       });
     });
 
@@ -64,7 +93,7 @@ const WhyHireMe = ({ isLoaded }: Props) => {
     >
       <div
         ref={containerRef}
-        className="w-[95%] random mx-auto filter blur-md scale-x-75 h-[95vh] overflow-hidden bg-black px-4 rounded-full"
+        className="w-[95%] random mx-auto h-[95vh] overflow-hidden bg-black px-4 rounded-full blur-md filter opacity-[0.85] scale-x-[0.75] origin-center"
       >
         <div
           ref={contentRef}

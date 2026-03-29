@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import gsap, { Power1, Power4 } from "gsap";
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
 import "../loading.css";
 
@@ -13,11 +13,19 @@ type LoadingProps = {
 const Loading = ({ setIsLoading }: LoadingProps) => {
   const splitRef = useRef<SplitType | null>(null);
   const wordref = useRef<HTMLHeadingElement | null>(null);
-  useGSAP(() => {
+
+  useLayoutEffect(() => {
     if (wordref.current) {
       splitRef.current = new SplitType(wordref.current);
+    }
+    return () => {
+      splitRef.current?.revert();
+      splitRef.current = null;
+    };
+  }, []);
 
-      if (splitRef.current.words) {
+  useGSAP(() => {
+    if (splitRef.current?.words) {
         const tl = gsap.timeline();
 
         tl.to(
@@ -113,7 +121,6 @@ const Loading = ({ setIsLoading }: LoadingProps) => {
           ">-1.15"
         );
       }
-    }
   }, []);
 
   return (

@@ -40,13 +40,32 @@ function App() {
       });
       locomotiveRef.current = scroll;
 
-      const lenis = (scroll as any).lenis;
+      const lenis = scroll.lenisInstance;
       if (lenis) {
-        lenis.on('scroll', ScrollTrigger.update);
+        ScrollTrigger.scrollerProxy(document.documentElement, {
+          scrollTop(value) {
+            if (arguments.length) {
+              lenis.scrollTo(value, { immediate: false });
+            }
+            return lenis.scroll;
+          },
+          getBoundingClientRect() {
+            return {
+              top: 0,
+              left: 0,
+              width: window.innerWidth,
+              height: window.innerHeight,
+            };
+          },
+        });
+        ScrollTrigger.defaults({ scroller: document.documentElement });
+
+        lenis.on("scroll", ScrollTrigger.update);
         gsap.ticker.add((time) => {
           lenis.raf(time * 1000);
         });
         gsap.ticker.lagSmoothing(0);
+        ScrollTrigger.refresh();
       }
     })();
     window.scrollTo(0, 0);
