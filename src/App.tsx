@@ -24,7 +24,7 @@ function App() {
       const LocomotiveModule = await import("locomotive-scroll");
       const Locomotive = LocomotiveModule.default;
       
-      locomotiveRef.current = new Locomotive({
+      const scroll = new Locomotive({
         lenisOptions: {
           wrapper: window,
           content: document.documentElement,
@@ -38,6 +38,16 @@ function App() {
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         },
       });
+      locomotiveRef.current = scroll;
+
+      const lenis = (scroll as any).lenis;
+      if (lenis) {
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+      }
     })();
     window.scrollTo(0, 0);
 
@@ -49,7 +59,6 @@ function App() {
   }, []);
 
   useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
     const navAnimation = gsap
       .from(".nav", {
         yPercent: -200,

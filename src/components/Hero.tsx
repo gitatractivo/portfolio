@@ -26,8 +26,6 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
   const velustroContainerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     if (!isLoading) {
       const tl2 = gsap.timeline({
         repeat: -1,

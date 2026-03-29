@@ -1,5 +1,5 @@
 import { useGSAP } from "@gsap/react";
-import gsap, { Power1, Power3 } from "gsap";
+import gsap, { Power3 } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
 
@@ -7,22 +7,10 @@ const WhyHireMe = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const tl = gsap.timeline();
-
-    tl.to(containerRef.current, {
+    gsap.to(containerRef.current, {
       scale: 1,
-      ease: Power1.easeOut,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "top 2%",
-        scrub: 0.5,
-      },
-    });
-
-    tl.to(containerRef.current, {
       borderRadius: "28px",
+      filter: "blur(0px)",
       ease: Power3.easeOut,
       scrollTrigger: {
         trigger: containerRef.current,
@@ -31,21 +19,6 @@ const WhyHireMe = () => {
         scrub: 0.5,
       },
     });
-
-    tl.to(
-      containerRef.current,
-      {
-        filter: "blur(0px)",
-        ease: Power1.easeIn,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "top 2%",
-          scrub: 0.5,
-        },
-      },
-      "<"
-    );
 
     ScrollTrigger.create({
       trigger: containerRef.current,

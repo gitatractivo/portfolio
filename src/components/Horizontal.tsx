@@ -1,6 +1,5 @@
 import { useGSAP } from '@gsap/react';
 import { Back,  Power4, gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRef } from 'react';
 import SplitType from 'split-type';
 
@@ -12,8 +11,6 @@ const Horizontal = () => {
   const splitRef = useRef<SplitType | null>(null);
 
   useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const container = containerRef.current;
     const text = textRef.current;
 
