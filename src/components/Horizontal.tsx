@@ -1,75 +1,87 @@
 import { useGSAP } from '@gsap/react';
 import { Back,  Power4, gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import SplitType from 'split-type';
 
 // gsap.registerPlugin(ScrollTrigger);
 
-const Horizontal = () => {
+type Props = { isLoaded: boolean };
+
+const Horizontal = ({ isLoaded }: Props) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const textRef = useRef<HTMLDivElement | null>(null);
   const splitRef = useRef<SplitType | null>(null);
 
-  useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const container = containerRef.current;
+  useLayoutEffect(() => {
     const text = textRef.current;
-
-    if (text && container) {
+    if (text) {
       splitRef.current = new SplitType(text);
-      let scrollTween = gsap.to(text, {
-        x: () => -(text.scrollWidth - document.documentElement.clientWidth + 80) + 'px',
-        ease: 'none',
-        force3D: true,
-        scrollTrigger: {
-          trigger: container,
-          invalidateOnRefresh: true,
-          scrub: 1,
-          start: "top top",
-          pin: true,
-          end: () => '+=' + text.offsetWidth,
-        },
-      });
+    }
+    return () => {
+      splitRef.current?.revert();
+      splitRef.current = null;
+    };
+  }, []);
 
-      gsap.set(container, { backgroundColor: "#000000" }); // Set initial color to black
+  useGSAP(() => {
+    if (!isLoaded) return;
 
-      const colorTimeline = gsap.timeline({
-        force3D: true,
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: () => "+=" + text.offsetWidth,
-          scrub: true,
-        },
-      });
+    const ctx = gsap.context(() => {
+      const container = containerRef.current;
+      const text = textRef.current;
 
-      colorTimeline.to(container, {
-        force3D: true,
-        backgroundColor: "#4b7287",
-        duration: 0.25,
-      });
+      if (text && container && splitRef.current?.chars) {
+        let scrollTween = gsap.to(text, {
+          x: () => -(text.scrollWidth - document.documentElement.clientWidth + 80) + 'px',
+          ease: 'none',
+          force3D: true,
+          scrollTrigger: {
+            trigger: container,
+            invalidateOnRefresh: true,
+            scrub: 1,
+            start: "top top",
+            pin: true,
+            end: () => '+=' + text.offsetWidth,
+          },
+        });
 
-      colorTimeline.to(container, {
-        force3D: true,
-        backgroundColor: "#447f75",
-        duration: 0.25,
-      });
+        gsap.set(container, { backgroundColor: "#000000" }); // Set initial color to black
 
-      colorTimeline.to(container, {
-        force3D: true,
-        backgroundColor: "#294d45",
-        duration: 0.25,
-      });
+        const colorTimeline = gsap.timeline({
+          force3D: true,
+          scrollTrigger: {
+            trigger: container,
+            start: "top top",
+            end: () => "+=" + text.offsetWidth,
+            scrub: true,
+          },
+        });
 
-      colorTimeline.to(container, {
-        force3D: true,  
-        backgroundColor: "#1a1a6f",
-        duration: 0.25,
-      });
+        colorTimeline.to(container, {
+          force3D: true,
+          backgroundColor: "#4b7287",
+          duration: 0.25,
+        });
 
-      if (splitRef.current && splitRef.current.chars) {
+        colorTimeline.to(container, {
+          force3D: true,
+          backgroundColor: "#447f75",
+          duration: 0.25,
+        });
+
+        colorTimeline.to(container, {
+          force3D: true,
+          backgroundColor: "#294d45",
+          duration: 0.25,
+        });
+
+        colorTimeline.to(container, {
+          force3D: true,  
+          backgroundColor: "#1a1a6f",
+          duration: 0.25,
+        });
+
+        gsap.set(splitRef.current.chars, { willChange: "transform, opacity" });
         const l = splitRef.current.chars.length;
         splitRef.current.chars.forEach((char, i) => {
           let f = i / 17 * 140
@@ -107,14 +119,16 @@ const Horizontal = () => {
           }
         })
       }
-    }
-  }, []);
+    });
+    
+    return () => ctx.revert();
+  }, [isLoaded]);
 
   return (
     <section
       data-scroll
       data-scroll-section
-      className="max-w-screen px-[8vw] overflow-hidden max-h-screen h-screen"
+      className={`max-w-screen px-[8vw] overflow-hidden max-h-screen h-screen transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       ref={containerRef}
     >
       <div className="w-full h-full">

@@ -1,87 +1,99 @@
 import { useGSAP } from "@gsap/react";
-import gsap, { Power1, Power3 } from "gsap";
+import gsap, { Power3 } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
 
-const WhyHireMe = () => {
+type Props = {
+  isLoaded: boolean;
+};
+
+const WhyHireMe = ({ isLoaded }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const tl = gsap.timeline();
-
   useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    if (!isLoaded) return;
 
-    tl.to(containerRef.current, {
-      scale: 1,
-      ease: Power1.easeOut,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "top 2%",
-        scrub: 0.5,
-      },
-    });
+    const ctx = gsap.context(() => {
+      const container = containerRef.current;
+      const content = contentRef.current;
+      if (!container || !content) return;
 
-    tl.to(containerRef.current, {
-      borderRadius: "28px",
-      ease: Power3.easeOut,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "top 2%",
-        scrub: 0.5,
-      },
-    });
-
-    tl.to(
-      containerRef.current,
-      {
-        filter: "blur(0px)",
-        ease: Power1.easeIn,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "top 2%",
-          scrub: 0.5,
+      gsap.fromTo(
+        container,
+        { scaleX: 0.75, opacity: 0.85 },
+        {
+          scaleX: 1,
+          opacity: 1,
+          ease: Power3.easeOut,
+          scrollTrigger: {
+            trigger: container,
+            start: "top bottom",
+            end: "top 2%",
+            scrub: 0.5,
+          },
         },
-      },
-      "<"
-    );
+      );
 
-    ScrollTrigger.create({
-      trigger: containerRef.current,
+      gsap.to(content, {
+        y: () => -Math.max(0, content.scrollHeight - window.innerHeight),
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top 2%",
+          endTrigger: content,
+          end: "bottom 2%",
+          scrub: 0.5,
+          pin: true,
+          invalidateOnRefresh: true,
+        },
+      });
 
-      onUpdate: (self) => {
-        const scrollHeight = contentRef.current?.scrollHeight ?? window.innerHeight;
-        tl.to(contentRef.current, {
-          y:
-            -(
-              self.progress *
-              (scrollHeight - window.innerHeight)
-            ) +
-            "px" +
-            "+7.1vw",
-          duration: 0,
-        });
-      },
-      start: "top 2%",
-      endTrigger: contentRef.current,
-      end: "bottom 2%",
-      scrub: 1,
-      pin: true,
+      const setFilter = gsap.quickSetter(container, "filter");
+      const setScale = gsap.quickSetter(container, "scale");
+      const setRadius = gsap.quickSetter(container, "borderRadius");
+      const ease = gsap.parseEase("power3.inOut");
+
+
+      ScrollTrigger.create({
+        trigger: container,
+        start: "top bottom",
+        end: "top top",
+        scrub: true,
+        
+
+        onUpdate: (self) => {
+          const p = ease(self.progress);
+
+          const blur = (1-p) * 24;
+          const scale = window.innerWidth > 768 ? 1 - p * 0.15 : 1;
+
+
+          const MAX_RADIUS = window.innerWidth/2;
+          const MIN_RADIUS = 28;
+          const radius = MIN_RADIUS + (1 - p) * (MAX_RADIUS - MIN_RADIUS);
+
+          setFilter(`blur(${blur}px)`);
+          setScale(scale);
+          setRadius(`${radius}px`);
+        },
+      });
     });
-  }, []);
+
+    return () => ctx.revert();
+  }, [isLoaded]);
+
+  
 
   return (
     <div
-      data-scroll
-      data-scroll-section
-      data-scroll-speed="-.7"
+      // data-scroll
+      // data-scroll-section
+      // data-scroll-speed="-.7"
       className="py-5"
     >
       <div
         ref={containerRef}
-        className="w-[95%] random mx-auto filter blur-md scale-x-75 h-[95vh] overflow-hidden bg-black px-4 rounded-full"
+        className="w-[95%] random mx-auto h-[95vh] overflow-hidden bg-black px-4 rounded-full blur-md filter opacity-[0.85] scale-x-[0.75] origin-center"
       >
         <div
           ref={contentRef}

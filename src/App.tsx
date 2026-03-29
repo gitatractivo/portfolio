@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import NavBar from "./components/NavBar";
 import Loading from "./components/Loading";
 import { useGSAP } from "@gsap/react";
@@ -24,7 +24,7 @@ function App() {
       const LocomotiveModule = await import("locomotive-scroll");
       const Locomotive = LocomotiveModule.default;
       
-      locomotiveRef.current = new Locomotive({
+      const scroll = new Locomotive({
         lenisOptions: {
           wrapper: window,
           content: document.documentElement,
@@ -38,6 +38,35 @@ function App() {
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         },
       });
+      locomotiveRef.current = scroll;
+
+      const lenis = scroll.lenisInstance;
+      if (lenis) {
+        ScrollTrigger.scrollerProxy(document.documentElement, {
+          scrollTop(value) {
+            if (arguments.length) {
+              lenis.scrollTo(value, { immediate: false });
+            }
+            return lenis.scroll;
+          },
+          getBoundingClientRect() {
+            return {
+              top: 0,
+              left: 0,
+              width: window.innerWidth,
+              height: window.innerHeight,
+            };
+          },
+        });
+        ScrollTrigger.defaults({ scroller: document.documentElement });
+
+        lenis.on("scroll", ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+        ScrollTrigger.refresh();
+      }
     })();
     window.scrollTo(0, 0);
 
@@ -48,8 +77,18 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (locomotiveRef.current) {
+      if (!isLoaded) {
+        locomotiveRef.current.stop();
+      } else {
+        locomotiveRef.current.start();
+        setTimeout(() => ScrollTrigger.refresh(), 100);
+      }
+    }
+  }, [isLoaded]);
+
   useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
     const navAnimation = gsap
       .from(".nav", {
         yPercent: -200,
@@ -86,16 +125,11 @@ function App() {
           isLoaded={isLoaded}
           setIsLoaded={setIsLoaded}
         />
-        {isLoaded && (
-          <>
-            {/* <Projects isLoaded={isLoaded} /> */}
-            <Whoam isLoaded={isLoaded} />
-            {isLoaded && <Horizontal />}
-            <Projects />
+        <Whoam isLoaded={isLoaded} />
+        <Horizontal isLoaded={isLoaded} />
+        <Projects isLoaded={isLoaded} />
 
-            <Footer />
-          </>
-        )}
+        <Footer />
       </div>
     </ScrollProvider>
   );

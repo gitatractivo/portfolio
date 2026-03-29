@@ -1,7 +1,6 @@
 import { useGSAP } from "@gsap/react";
-import { useIntersection } from "@mantine/hooks";
 import gsap, { Power4 } from "gsap";
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
 
 type Props = {
@@ -13,28 +12,28 @@ const WhoAmI = ({ isLoaded }: Props) => {
   const pRef = useRef<HTMLParagraphElement>(null);
   const splitRef1 = useRef<SplitType | null>(null);
   const splitRef2 = useRef<SplitType | null>(null);
-  const [revealed1, setRevealed1] = useState(false);
-  const [revealed2, setRevealed2] = useState(false);
 
-  const { ref: whoIntersectionRef, entry: whoEntry } = useIntersection({
-    root: null,
-    threshold: 1,
-    rootMargin: "30%",
-  });
-
-  const { ref: pIntersectionRef, entry: pEntry } = useIntersection({
-    root: null,
-    threshold: 1,
-    rootMargin: "25%",
-  });
-
-  const tl = gsap.timeline();
+  useLayoutEffect(() => {
+    if (whoRef.current) {
+      splitRef1.current = new SplitType(whoRef.current);
+    }
+    if (pRef.current) {
+      splitRef2.current = new SplitType(pRef.current);
+    }
+    return () => {
+      splitRef1.current?.revert();
+      splitRef2.current?.revert();
+      splitRef1.current = null;
+      splitRef2.current = null;
+    };
+  }, []);
 
   useGSAP(() => {
-    if (!revealed1 && whoEntry?.isIntersecting && whoRef.current) {
-      splitRef1.current = new SplitType(whoRef.current);
-      if (splitRef1.current) {
-        tl.fromTo(
+    if (!isLoaded) return;
+
+    const ctx = gsap.context(() => {
+      if (splitRef1.current?.chars && whoRef.current) {
+        gsap.fromTo(
           splitRef1.current.chars,
           { opacity: 0 },
           {
@@ -44,49 +43,53 @@ const WhoAmI = ({ isLoaded }: Props) => {
             ease: Power4.easeInOut,
             stagger: 0.08,
             delay: 0.01,
+            scrollTrigger: {
+              trigger: whoRef.current,
+              start: "top 80%",
+              once: true,
+            },
           }
         );
       }
-      setRevealed1(true);
-    }
-  }, [whoEntry?.isIntersecting, isLoaded]);
+    });
+
+    return () => ctx.revert();
+  }, [isLoaded]);
 
   useGSAP(() => {
-    if (!revealed2 && pEntry?.isIntersecting && pRef.current) {
-      splitRef2.current = new SplitType(pRef.current);
-      if (splitRef2.current) {
-        tl.from(splitRef2.current.lines, {
+    if (!isLoaded) return;
+
+    const ctx = gsap.context(() => {
+      if (splitRef2.current?.lines && pRef.current) {
+        gsap.from(splitRef2.current.lines, {
           yPercent: "700",
           duration: 1,
           ease: Power4.easeInOut,
           stagger: 0.3,
           delay: 0.3,
+          scrollTrigger: {
+            trigger: pRef.current,
+            start: "top 80%",
+            once: true,
+          },
         });
       }
-      setRevealed2(true);
-    }
-  }, [pEntry?.isIntersecting, isLoaded]);
+    });
+
+    return () => ctx.revert();
+  }, [isLoaded]);
 
   return (
     <div className="flex px-[7vw] flex-col md:flex-row">
       <div className="flex flex-col justify-center min-h-[80vh] w-full items-center h-full">
         <h1
-          ref={(el) => {
-            // @ts-ignore
-            whoRef.current = el;
-            whoIntersectionRef(el);
-          }}
+          ref={whoRef}
           className="text-[6vw] translate-y-[300%] font-mono px-[2vw] leading-[4vw] text-left w-full font-black"
         >
           Who am I?
         </h1>
         <p
-          ref={(el) => {
-            // @ts-ignore
-
-            pRef.current = el;
-            pIntersectionRef(el);
-          }}
+          ref={pRef}
           className="mt-[1.5vh] text-[1.5vw] overflow-hidden leading-8 px-[2vw] tracking-wider whoP font-mono"
         >
           I am a full stack developer from India passionate about building
