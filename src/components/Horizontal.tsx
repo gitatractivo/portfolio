@@ -5,114 +5,122 @@ import SplitType from 'split-type';
 
 // gsap.registerPlugin(ScrollTrigger);
 
-const Horizontal = () => {
+type Props = { isLoaded: boolean };
+
+const Horizontal = ({ isLoaded }: Props) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const textRef = useRef<HTMLDivElement | null>(null);
   const splitRef = useRef<SplitType | null>(null);
 
   useGSAP(() => {
-    const container = containerRef.current;
-    const text = textRef.current;
+    if (!isLoaded) return;
 
-    if (text && container) {
-      splitRef.current = new SplitType(text);
-      let scrollTween = gsap.to(text, {
-        x: () => -(text.scrollWidth - document.documentElement.clientWidth + 80) + 'px',
-        ease: 'none',
-        force3D: true,
-        scrollTrigger: {
-          trigger: container,
-          invalidateOnRefresh: true,
-          scrub: 1,
-          start: "top top",
-          pin: true,
-          end: () => '+=' + text.offsetWidth,
-        },
-      });
+    const ctx = gsap.context(() => {
+      const container = containerRef.current;
+      const text = textRef.current;
 
-      gsap.set(container, { backgroundColor: "#000000" }); // Set initial color to black
+      if (text && container) {
+        splitRef.current = new SplitType(text);
+        let scrollTween = gsap.to(text, {
+          x: () => -(text.scrollWidth - document.documentElement.clientWidth + 80) + 'px',
+          ease: 'none',
+          force3D: true,
+          scrollTrigger: {
+            trigger: container,
+            invalidateOnRefresh: true,
+            scrub: 1,
+            start: "top top",
+            pin: true,
+            end: () => '+=' + text.offsetWidth,
+          },
+        });
 
-      const colorTimeline = gsap.timeline({
-        force3D: true,
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: () => "+=" + text.offsetWidth,
-          scrub: true,
-        },
-      });
+        gsap.set(container, { backgroundColor: "#000000" }); // Set initial color to black
 
-      colorTimeline.to(container, {
-        force3D: true,
-        backgroundColor: "#4b7287",
-        duration: 0.25,
-      });
+        const colorTimeline = gsap.timeline({
+          force3D: true,
+          scrollTrigger: {
+            trigger: container,
+            start: "top top",
+            end: () => "+=" + text.offsetWidth,
+            scrub: true,
+          },
+        });
 
-      colorTimeline.to(container, {
-        force3D: true,
-        backgroundColor: "#447f75",
-        duration: 0.25,
-      });
+        colorTimeline.to(container, {
+          force3D: true,
+          backgroundColor: "#4b7287",
+          duration: 0.25,
+        });
 
-      colorTimeline.to(container, {
-        force3D: true,
-        backgroundColor: "#294d45",
-        duration: 0.25,
-      });
+        colorTimeline.to(container, {
+          force3D: true,
+          backgroundColor: "#447f75",
+          duration: 0.25,
+        });
 
-      colorTimeline.to(container, {
-        force3D: true,  
-        backgroundColor: "#1a1a6f",
-        duration: 0.25,
-      });
+        colorTimeline.to(container, {
+          force3D: true,
+          backgroundColor: "#294d45",
+          duration: 0.25,
+        });
 
-      if (splitRef.current && splitRef.current.chars) {
-        gsap.set(splitRef.current.chars, { willChange: "transform, opacity" });
-        const l = splitRef.current.chars.length;
-        splitRef.current.chars.forEach((char, i) => {
-          let f = i / 17 * 140
-          if(i>13) f=i/l*100+50
-          const p =f +30+"%"
-          f=i/l*80
-          const e = f+"%" 
-          let start = `right ${p}`
-          let end = `right ${e}`
-          gsap.from(char, {
-            y: 50 * (l - i) / l+15 + "vh",
-            opacity: 0,
-            duration: 1,
-            ease: Back.easeOut.config(1.2),
-            stagger: 0.1,
-            force3D: true,
-            scrollTrigger: {
-              trigger: char,
-              start,
-              end,
-              scrub: 1,
-              containerAnimation: scrollTween,
+        colorTimeline.to(container, {
+          force3D: true,  
+          backgroundColor: "#1a1a6f",
+          duration: 0.25,
+        });
+
+        if (splitRef.current && splitRef.current.chars) {
+          gsap.set(splitRef.current.chars, { willChange: "transform, opacity" });
+          const l = splitRef.current.chars.length;
+          splitRef.current.chars.forEach((char, i) => {
+            let f = i / 17 * 140
+            if(i>13) f=i/l*100+50
+            const p =f +30+"%"
+            f=i/l*80
+            const e = f+"%" 
+            let start = `right ${p}`
+            let end = `right ${e}`
+            gsap.from(char, {
+              y: 50 * (l - i) / l+15 + "vh",
+              opacity: 0,
+              duration: 1,
+              ease: Back.easeOut.config(1.2),
+              stagger: 0.1,
+              force3D: true,
+              scrollTrigger: {
+                trigger: char,
+                start,
+                end,
+                scrub: 1,
+                containerAnimation: scrollTween,
+              }
+            })
+            if (char.textContent === "o"){
+              gsap.to(char,{
+                yPercent:-10,
+                repeat:-1,
+                duration:1,
+                ease:Power4.easeInOut,
+                delay:0.5,
+                yoyo:true,
+                force3D: true,
+              })
             }
           })
-          if (char.textContent === "o"){
-            gsap.to(char,{
-              yPercent:-10,
-              repeat:-1,
-              duration:1,
-              ease:Power4.easeInOut,
-              delay:0.5,
-              yoyo:true,
-              force3D: true,
-            })
-          }
-        })
+        }
       }
-    }
-  }, []);
+    });
+    
+    return () => ctx.revert();
+  }, [isLoaded]);
 
   return (
     <section
       data-scroll
       data-scroll-section
-      className="max-w-screen px-[8vw] overflow-hidden max-h-screen h-screen"
+      className={`max-w-screen px-[8vw] overflow-hidden max-h-screen h-screen transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       ref={containerRef}
     >
       <div className="w-full h-full">

@@ -1,6 +1,8 @@
 import { GoArrowUpRight } from "react-icons/go";
 
-const Projects = () => {
+type Props = { isLoaded: boolean };
+
+const Projects = ({ isLoaded }: Props) => {
   const projects = [
     {
       title: "SocialSphere",
@@ -49,7 +51,7 @@ const Projects = () => {
   return (
     <div
       id="projects"
-      className="w-full min-h-screen mt-20 flex flex-col justify-center items-center p-20"
+      className={`w-full min-h-screen mt-20 flex flex-col justify-center items-center p-20 transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}
     >
       <h1 className="font-mono  mb-4 text-left text-[4vw] font-black leading-tight w-full ">
         My Work

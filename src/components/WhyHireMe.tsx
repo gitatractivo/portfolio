@@ -3,51 +3,63 @@ import gsap, { Power3 } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
 
-const WhyHireMe = () => {
+type Props = {
+  isLoaded: boolean;
+};
+
+const WhyHireMe = ({ isLoaded }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   useGSAP(() => {
-    gsap.to(containerRef.current, {
-      scale: 1,
-      borderRadius: "28px",
-      filter: "blur(0px)",
-      ease: Power3.easeOut,
-      scrollTrigger: {
+    if (!isLoaded) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(containerRef.current, {
+        scale: 1,
+        borderRadius: "28px",
+        filter: "blur(0px)",
+        ease: Power3.easeOut,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "top 2%",
+          scrub: 0.5,
+        },
+      });
+
+      ScrollTrigger.create({
         trigger: containerRef.current,
-        start: "top bottom",
-        end: "top 2%",
+
+        onUpdate: (self) => {
+          const scrollHeight = contentRef.current?.scrollHeight ?? window.innerHeight;
+          gsap.set(contentRef.current, {
+            y:
+              -(
+                self.progress *
+                (scrollHeight - window.innerHeight)
+              ) +
+              "px" +
+              "+7.1vw",
+          });
+        },
+        start: "top 2%",
+        endTrigger: contentRef.current,
+        end: "bottom 2%",
         scrub: 0.5,
-      },
+        pin: true,
+      });
     });
 
-    ScrollTrigger.create({
-      trigger: containerRef.current,
+    return () => ctx.revert();
+  }, [isLoaded]);
 
-      onUpdate: (self) => {
-        const scrollHeight = contentRef.current?.scrollHeight ?? window.innerHeight;
-        gsap.set(contentRef.current, {
-          y:
-            -(
-              self.progress *
-              (scrollHeight - window.innerHeight)
-            ) +
-            "px" +
-            "+7.1vw",
-        });
-      },
-      start: "top 2%",
-      endTrigger: contentRef.current,
-      end: "bottom 2%",
-      scrub: 1,
-      pin: true,
-    });
-  }, []);
+  
 
   return (
     <div
-      data-scroll
-      data-scroll-section
-      data-scroll-speed="-.7"
+      // data-scroll
+      // data-scroll-section
+      // data-scroll-speed="-.7"
       className="py-5"
     >
       <div

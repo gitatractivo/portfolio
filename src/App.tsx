@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import NavBar from "./components/NavBar";
 import Loading from "./components/Loading";
 import { useGSAP } from "@gsap/react";
@@ -58,6 +58,17 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (locomotiveRef.current) {
+      if (!isLoaded) {
+        locomotiveRef.current.stop();
+      } else {
+        locomotiveRef.current.start();
+        setTimeout(() => ScrollTrigger.refresh(), 100);
+      }
+    }
+  }, [isLoaded]);
+
   useGSAP(() => {
     const navAnimation = gsap
       .from(".nav", {
@@ -95,16 +106,11 @@ function App() {
           isLoaded={isLoaded}
           setIsLoaded={setIsLoaded}
         />
-        {isLoaded && (
-          <>
-            {/* <Projects isLoaded={isLoaded} /> */}
-            <Whoam isLoaded={isLoaded} />
-            {isLoaded && <Horizontal />}
-            <Projects />
+        <Whoam isLoaded={isLoaded} />
+        <Horizontal isLoaded={isLoaded} />
+        <Projects isLoaded={isLoaded} />
 
-            <Footer />
-          </>
-        )}
+        <Footer />
       </div>
     </ScrollProvider>
   );
