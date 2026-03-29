@@ -146,7 +146,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
               if (window.innerWidth > 768) {
                 animate.scale = 1 - scaleAmount;
               }
-
+              animate.overwrite = "auto";
               gsap.to(".scaleDown", animate);
             },
           });
@@ -193,7 +193,7 @@ const Hero = ({ isLoading, isLoaded, setIsLoaded }: Props) => {
         ref={parentRef}
         className="clipPath bg-clip-border translate-y-full  md:px-[2.5vw] p-0 md:pt-44  md:pb-[10vh]  w-full  z-10 overflow-hidden flex flex-col justify-between  bg-black text-white max-h-[105dvh]    h-[100dvh] md:h-[110vh]"
       >
-        <div className="w-full h-full relative bg-black  left-1/2 -translate-x-1/2 overflow-hidden md:rounded-[28px] box-border scaleDown">
+        <div style={{ willChange: "filter, transform" }} className="w-full h-full relative bg-black  left-1/2 -translate-x-1/2 overflow-hidden md:rounded-[28px] box-border scaleDown">
           <div
             ref={velustroContainerRef}
             className={`w-[800px] h-[800px]   origin-top-left  hue-rotate-330 filter gradient-mask`}

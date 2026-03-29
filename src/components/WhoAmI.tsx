@@ -1,4 +1,4 @@
-import { useGSAP } from "@gsap/react";
+  import { useGSAP } from "@gsap/react";
 import { useIntersection } from "@mantine/hooks";
 import gsap, { Power4 } from "gsap";
 import { useRef, useState } from "react";
@@ -28,13 +28,11 @@ const WhoAmI = ({ isLoaded }: Props) => {
     rootMargin: "25%",
   });
 
-  const tl = gsap.timeline();
-
   useGSAP(() => {
     if (!revealed1 && whoEntry?.isIntersecting && whoRef.current) {
       splitRef1.current = new SplitType(whoRef.current);
       if (splitRef1.current) {
-        tl.fromTo(
+        gsap.fromTo(
           splitRef1.current.chars,
           { opacity: 0 },
           {
@@ -55,7 +53,7 @@ const WhoAmI = ({ isLoaded }: Props) => {
     if (!revealed2 && pEntry?.isIntersecting && pRef.current) {
       splitRef2.current = new SplitType(pRef.current);
       if (splitRef2.current) {
-        tl.from(splitRef2.current.lines, {
+        gsap.from(splitRef2.current.lines, {
           yPercent: "700",
           duration: 1,
           ease: Power4.easeInOut,

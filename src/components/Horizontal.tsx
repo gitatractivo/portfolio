@@ -70,6 +70,7 @@ const Horizontal = () => {
       });
 
       if (splitRef.current && splitRef.current.chars) {
+        gsap.set(splitRef.current.chars, { willChange: "transform, opacity" });
         const l = splitRef.current.chars.length;
         splitRef.current.chars.forEach((char, i) => {
           let f = i / 17 * 140

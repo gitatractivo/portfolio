@@ -6,10 +6,9 @@ import { useRef } from "react";
 const WhyHireMe = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const tl = gsap.timeline();
-
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
+    const tl = gsap.timeline();
 
     tl.to(containerRef.current, {
       scale: 1,
@@ -53,7 +52,7 @@ const WhyHireMe = () => {
 
       onUpdate: (self) => {
         const scrollHeight = contentRef.current?.scrollHeight ?? window.innerHeight;
-        tl.to(contentRef.current, {
+        gsap.set(contentRef.current, {
           y:
             -(
               self.progress *
@@ -61,7 +60,6 @@ const WhyHireMe = () => {
             ) +
             "px" +
             "+7.1vw",
-          duration: 0,
         });
       },
       start: "top 2%",
